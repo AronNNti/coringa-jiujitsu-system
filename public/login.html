@@ -1,473 +1,526 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Coringa Jiu-Jitsu</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="shortcut icon" type="image/png" href="/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/mobile-responsive.css">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mobile-responsive.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        html, body {
-            height: 100%;
-        }
+      html,
+      body {
+        height: 100%;
+      }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #000000;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #000000;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
 
-        header {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem 1.5rem;
-            @media (max-width: 768px) {
-                padding: 0.75rem 1rem;
-            }
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #ffc107;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
+      header {
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid #ffc107;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            transition: opacity 0.3s ease;
-        }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        transition: opacity 0.3s ease;
+      }
 
-        .header-left:hover {
-            opacity: 0.8;
-        }
+      .header-left:hover {
+        opacity: 0.8;
+      }
 
-        .logo-small {
-            width: auto;
-            height: 100px;
-            border-radius: 50%;
-            border: none;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #000;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 0.25rem;
-            overflow: hidden;
-        }
+      .coringa-logo {
+        height: 100px;
+        width: auto;
+        object-fit: contain;
+        display: block;
+      }
 
-        .logo-small img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 2px;
-        }
+      .header-logo-text {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ffc107;
+        letter-spacing: 1px;
+        white-space: nowrap;
+      }
 
-        .coringa-logo {
-            height: 100px;
-            width: auto;
-            object-fit: contain;
-            display: block;
-        }
+      .logo-with-text {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
 
-        .header-logo-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #ffc107;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
+      .btn-home {
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        color: #000;
+        border: none;
+        padding: 0.9rem 2rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        text-decoration: none;
+        display: inline-block;
+      }
 
-        .logo-with-text {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+      .btn-home:hover {
+        background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+      }
 
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
+      main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        position: relative;
+        gap: 2rem;
+      }
 
-        .logo-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #ffc107;
-            letter-spacing: 0.5px;
-        }
+      .login-side-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.2;
+        flex-shrink: 0;
+      }
 
-        .logo-subtitle {
-            font-size: 0.7rem;
-            color: #999;
-            letter-spacing: 1px;
-        }
+      .login-side-logo.left {
+        width: 200px;
+        height: 200px;
+      }
 
-        .btn-home {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            color: #000;
-            border: none;
-            padding: 0.9rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
-            text-decoration: none;
-            display: inline-block;
-        }
+      .login-side-logo.right {
+        width: 250px;
+        height: 250px;
+      }
 
-        .btn-home:hover {
-            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
-        }
+      .side-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
 
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-            gap: 2rem;
-        }
+      .login-container {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 193, 7, 0.2);
+        border-radius: 20px;
+        padding: 3rem;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
 
-        .login-side-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.20;
-            flex-shrink: 0;
-        }
+      .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
 
-        .login-side-logo.left {
-            width: 200px;
-            height: 200px;
-        }
+      .login-header h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #ffc107;
+        margin-bottom: 0.5rem;
+      }
 
-        .login-side-logo.right {
-            width: 250px;
-            height: 250px;
-        }
+      .login-header p {
+        color: #999;
+        font-size: 0.95rem;
+      }
 
-        .side-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
 
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #fff;
+        font-size: 0.95rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid rgba(255, 193, 7, 0.3);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+        font-family: "Poppins", sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #ffc107;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
+      }
+
+      .form-group input::placeholder {
+        color: #666;
+      }
+
+      .password-group {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #ffc107;
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .password-toggle:hover {
+        color: #ffb300;
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .form-group.password-group input {
+        padding-right: 3rem;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        color: #000;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        font-family: "Poppins", sans-serif;
+      }
+
+      .btn-submit:hover {
+        background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+      }
+
+      .btn-submit:active {
+        transform: translateY(0);
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .form-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #999;
+      }
+
+      .form-footer a {
+        color: #ffc107;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .form-footer a:hover {
+        color: #ffb300;
+        text-decoration: underline;
+      }
+
+      .message {
+        margin-bottom: 1rem;
+        padding: 0.9rem 1rem;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        display: none;
+      }
+
+      .message.error {
+        display: block;
+        background: rgba(255, 59, 59, 0.15);
+        border: 1px solid rgba(255, 59, 59, 0.4);
+        color: #ff8a8a;
+      }
+
+      .message.success {
+        display: block;
+        background: rgba(46, 204, 113, 0.15);
+        border: 1px solid rgba(46, 204, 113, 0.4);
+        color: #8df0b2;
+      }
+
+      footer {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 2rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 193, 7, 0.1);
+        color: #999;
+        font-size: 0.85rem;
+      }
+
+      footer a {
+        color: #ffc107;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      footer a:hover {
+        color: #ffb300;
+      }
+
+      @media (max-width: 600px) {
         .login-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 193, 7, 0.2);
-            border-radius: 20px;
-            padding: 3rem;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
+          padding: 2rem;
         }
 
         .login-header h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #ffc107;
-            margin-bottom: 0.5rem;
+          font-size: 1.5rem;
         }
 
-        .login-header p {
-            color: #999;
-            font-size: 0.95rem;
+        header {
+          padding: 1rem;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        .header-logo-text {
+          font-size: 1rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #fff;
-            font-size: 0.95rem;
+        .coringa-logo {
+          height: 70px;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(255, 193, 7, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .login-side-logo {
+          display: none;
         }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #ffc107;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
-        }
-
-        .form-group input::placeholder {
-            color: #666;
-        }
-
-        .password-group {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #ffc107;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .password-toggle:hover {
-            color: #ffb300;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .form-group.password-group input {
-            padding-right: 3rem;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: #999;
-        }
-
-        .form-footer a {
-            color: #ffc107;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .form-footer a:hover {
-            color: #ffb300;
-            text-decoration: underline;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 193, 7, 0.1);
-            color: #999;
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: #ffc107;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #ffb300;
-        }
-
-        @media (max-width: 600px) {
-            .login-container {
-                padding: 2rem;
-            }
-
-            .login-header h1 {
-                font-size: 1.5rem;
-            }
-
-            header {
-                padding: 1rem;
-            }
-
-            .logo-title {
-                font-size: 1rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <a href="/" class="header-left" style="text-decoration: none; color: inherit;">
-            <div class="logo-with-text">
-                <img src="/coringa-header-logo.png" alt="Coringa" class="coringa-logo">
-                <span class="header-logo-text">CORINGA JIU-JITSU</span>
-            </div>
-        </a>
-        <a href="/" class="btn-home" style="color: white; text-decoration: none;">Home</a>
+      <a
+        href="/"
+        class="header-left"
+        style="text-decoration: none; color: inherit"
+      >
+        <div class="logo-with-text">
+          <img
+            src="/coringa-header-logo.png"
+            alt="Coringa"
+            class="coringa-logo"
+          />
+          <span class="header-logo-text">CORINGA JIU-JITSU</span>
+        </div>
+      </a>
+      <a href="/" class="btn-home" style="color: white; text-decoration: none"
+        >Home</a
+      >
     </header>
 
     <main>
-        <div class="login-side-logo left">
-            <img src="/coringa-header-logo.png" alt="Coringa" class="side-logo">
+      <div class="login-side-logo left">
+        <img src="/coringa-header-logo.png" alt="Coringa" class="side-logo" />
+      </div>
+
+      <div class="login-container">
+        <div class="login-header">
+          <h1>Login</h1>
+          <p>Acesse sua conta</p>
         </div>
-        <div class="login-container">
-            <div class="login-header">
-                <h1>Login</h1>
-                <p>Acesse sua conta</p>
-            </div>
 
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="seu@email.com" 
-                        required
-                    >
-                </div>
+        <div id="messageBox" class="message"></div>
 
-                <div class="form-group password-group">
-                    <label for="password">Senha</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Digite sua senha" 
-                        required
-                    >
-                    <button type="button" class="password-toggle" onclick="togglePasswordVisibility()" id="toggleBtn">👁️</button>
-                </div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="seu@email.com"
+              required
+            />
+          </div>
 
-                <button type="submit" class="btn-submit">Entrar</button>
-            </form>
+          <div class="form-group password-group">
+            <label for="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Digite sua senha"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePasswordVisibility()"
+              id="toggleBtn"
+            >
+              👁️
+            </button>
+          </div>
 
-            <div class="form-footer">
-                <p><a href="#forgot">Esqueceu a senha?</a></p>
-            </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Entrar
+          </button>
+        </form>
+
+        <div class="form-footer">
+          <p><a href="/change-password.html">Esqueceu a senha?</a></p>
         </div>
-        <div class="login-side-logo right">
-            <img src="/sapo-grappling-team.png" alt="Sapo Grappling Team" class="side-logo">
-        </div>
+      </div>
+
+      <div class="login-side-logo right">
+        <img
+          src="/sapo-grappling-team.png"
+          alt="Sapo Grappling Team"
+          class="side-logo"
+        />
+      </div>
     </main>
 
     <footer>
-        <p>© 2026 Dojo Check - Sistema de Presença</p>
-        <p>Desenvolvido por <a href="#">Aron Nascimento</a></p>
+      <p>© 2026 Dojo Check - Sistema de Presença</p>
+      <p>Desenvolvido por <a href="#">Aron Nascimento</a></p>
     </footer>
 
-    <script src="auth.js"></script>
     <script>
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const toggleBtn = document.getElementById('toggleBtn');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleBtn.textContent = '👁️‍🗨️';
-            } else {
-                passwordInput.type = 'password';
-                toggleBtn.textContent = '👁️';
-            }
-        }
+      const loginForm = document.getElementById("loginForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const messageBox = document.getElementById("messageBox");
 
-        async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            try {
-                const response = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // Salvar token e usuário
-                    setAuth(data.token, data.user);
-                    
-                    // Se precisa trocar senha, redirecionar para change-password
-                    if (data.user.needsPasswordChange) {
-                        window.location.href = '/change-password.html';
-                    } else {
-                        // Redirecionar baseado no role
-                        if (data.user.role === 'admin') {
-                            window.location.href = '/dashboard-admin.html';
-                        } else if (data.user.role === 'professor') {
-                            window.location.href = '/dashboard-professor.html';
-                        } else if (data.user.role === 'aluno') {
-                            window.location.href = '/dashboard-aluno.html';
-                        } else {
-                            alert('Role desconhecido: ' + data.user.role);
-                        }
-                    }
-                } else {
-                    alert(data.message || 'Email ou senha incorretos!');
-                }
-            } catch (error) {
-                alert('Erro ao fazer login. Tente novamente.');
-            }
+      function togglePasswordVisibility() {
+        const passwordInput = document.getElementById("password");
+        const toggleBtn = document.getElementById("toggleBtn");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleBtn.textContent = "🙈";
+        } else {
+          passwordInput.type = "password";
+          toggleBtn.textContent = "👁️";
         }
+      }
+
+      function showMessage(type, text) {
+        messageBox.className = `message ${type}`;
+        messageBox.textContent = text;
+      }
+
+      function clearMessage() {
+        messageBox.className = "message";
+        messageBox.textContent = "";
+      }
+
+      function saveAuth(token, user) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+
+      loginForm.addEventListener("submit", handleLogin);
+
+      async function handleLogin(event) {
+        event.preventDefault();
+        clearMessage();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Entrando...";
+
+        try {
+          const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            showMessage(
+              "error",
+              data.error || data.message || "Email ou senha incorretos!",
+            );
+            return;
+          }
+
+          saveAuth(data.token, data.user);
+
+          if (data.user.needsPasswordChange) {
+            window.location.href = "/change-password.html";
+            return;
+          }
+
+          if (data.user.role === "admin") {
+            window.location.href = "/dashboard-admin.html";
+          } else if (data.user.role === "professor") {
+            window.location.href = "/dashboard-professor.html";
+          } else if (data.user.role === "aluno") {
+            window.location.href = "/dashboard-aluno.html";
+          } else {
+            showMessage("error", "Tipo de usuário desconhecido.");
+          }
+        } catch (error) {
+          console.error("Erro real no login:", error);
+          showMessage("error", "Erro ao fazer login. Tente novamente.");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Entrar";
+        }
+      }
     </script>
-</body>
+  </body>
 </html>
