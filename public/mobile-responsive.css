@@ -1,0 +1,468 @@
+/* ============================= */
+/* MEDIA QUERIES RESPONSIVAS     */
+/* ============================= */
+
+/* Tablets e Dispositivos Médios (até 768px) */
+@media (max-width: 768px) {
+    /* Header */
+    header {
+        padding: 0.75rem 1rem !important;
+        flex-wrap: wrap;
+    }
+
+    .header-left {
+        gap: 0.5rem;
+    }
+
+    .coringa-logo,
+    .logo-small img {
+        height: 50px !important;
+    }
+
+    .header-logo-text,
+    .logo-title {
+        font-size: 1rem !important;
+    }
+
+    .logo-subtitle {
+        font-size: 0.6rem !important;
+    }
+
+    .btn-home {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Main Content */
+    main {
+        padding: 1rem !important;
+        gap: 1rem !important;
+    }
+
+    .login-side-logo {
+        display: none !important;
+    }
+
+    .container {
+        padding: 0 0.75rem !important;
+        margin: 1rem auto !important;
+    }
+
+    /* Forms */
+    .login-container {
+        padding: 1.5rem !important;
+        max-width: 100% !important;
+        border-radius: 15px !important;
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem !important;
+    }
+
+    .login-header p {
+        font-size: 0.85rem !important;
+    }
+
+    .form-group {
+        margin-bottom: 1rem !important;
+    }
+
+    .form-group label {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.3rem !important;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 0.75rem !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+    }
+
+    .btn-submit,
+    .btn {
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
+        border-radius: 8px !important;
+    }
+
+    /* Tables */
+    .table-container {
+        overflow-x: auto !important;
+        padding: 0.75rem !important;
+    }
+
+    table {
+        font-size: 0.85rem !important;
+    }
+
+    th, td {
+        padding: 0.75rem !important;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Modals */
+    .modal-content {
+        width: 90% !important;
+        padding: 1.5rem !important;
+        border-radius: 15px !important;
+    }
+
+    .modal-header {
+        font-size: 1.3rem !important;
+    }
+
+    /* Tabs */
+    .tabs {
+        overflow-x: auto !important;
+        gap: 0.5rem !important;
+    }
+
+    .tab-btn {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    /* Footer */
+    footer {
+        padding: 1.5rem 1rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Filters */
+    .filters {
+        gap: 0.5rem !important;
+        flex-wrap: wrap !important;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        padding: 0.6rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .filter-group select {
+        max-width: 150px !important;
+    }
+
+    /* Section Headers */
+    .section-header {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        align-items: flex-start !important;
+    }
+
+    .section-title {
+        font-size: 1.3rem !important;
+    }
+
+    .btn-group {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+    }
+
+    .btn-group .btn {
+        flex: 1 !important;
+        min-width: 120px !important;
+    }
+}
+
+/* Celulares Pequenos (até 480px) */
+@media (max-width: 480px) {
+    /* Header */
+    header {
+        padding: 0.5rem 0.75rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .header-left {
+        gap: 0.3rem !important;
+    }
+
+    .coringa-logo,
+    .logo-small img {
+        height: 40px !important;
+    }
+
+    .header-logo-text {
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+    }
+
+    .logo-title {
+        font-size: 0.8rem !important;
+    }
+
+    .logo-subtitle {
+        display: none !important;
+    }
+
+    .btn-home {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Main Content */
+    main {
+        padding: 0.5rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .container {
+        padding: 0 0.5rem !important;
+        margin: 0.75rem auto !important;
+    }
+
+    /* Forms */
+    .login-container {
+        padding: 1.25rem 1rem !important;
+        max-width: 100% !important;
+        border-radius: 12px !important;
+    }
+
+    .login-header h1 {
+        font-size: 1.3rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .login-header p {
+        font-size: 0.75rem !important;
+    }
+
+    .form-group {
+        margin-bottom: 0.8rem !important;
+    }
+
+    .form-group label {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 0.65rem !important;
+        font-size: 16px !important;
+        border-radius: 6px !important;
+    }
+
+    .btn-submit,
+    .btn {
+        padding: 0.7rem 1rem !important;
+        font-size: 0.85rem !important;
+        border-radius: 6px !important;
+    }
+
+    /* Tables - Stack em mobile */
+    .table-container {
+        overflow-x: auto !important;
+        padding: 0.5rem !important;
+        border-radius: 8px !important;
+    }
+
+    table {
+        font-size: 0.75rem !important;
+    }
+
+    th, td {
+        padding: 0.5rem !important;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 0.35rem 0.6rem !important;
+        font-size: 0.65rem !important;
+        margin-right: 0.25rem !important;
+    }
+
+    /* Modals */
+    .modal-content {
+        width: 95% !important;
+        padding: 1.25rem 1rem !important;
+        border-radius: 12px !important;
+    }
+
+    .modal-header {
+        font-size: 1.1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100% !important;
+    }
+
+    .modal-buttons {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    .modal-buttons button {
+        width: 100% !important;
+    }
+
+    /* Tabs */
+    .tabs {
+        gap: 0.25rem !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    .tab-btn {
+        padding: 0.6rem 0.8rem !important;
+        font-size: 0.75rem !important;
+        white-space: nowrap !important;
+    }
+
+    /* Footer */
+    footer {
+        padding: 1rem 0.75rem !important;
+        font-size: 0.65rem !important;
+    }
+
+    /* Filters */
+    .filters {
+        gap: 0.4rem !important;
+        flex-direction: column !important;
+    }
+
+    .filter-group {
+        width: 100% !important;
+        flex-direction: column !important;
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100% !important;
+        padding: 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .filter-group select {
+        max-width: 100% !important;
+    }
+
+    /* Section Headers */
+    .section-header {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        align-items: stretch !important;
+    }
+
+    .section-title {
+        font-size: 1.1rem !important;
+    }
+
+    .btn-group {
+        width: 100% !important;
+        flex-direction: column !important;
+    }
+
+    .btn-group .btn {
+        width: 100% !important;
+    }
+
+    /* Prevent Zoom on Input Focus (iOS) */
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+    /* Improve Touch Targets */
+    button,
+    input[type="button"],
+    input[type="submit"] {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+
+    /* Reduce Padding for Compact Layout */
+    .form-footer {
+        font-size: 0.7rem !important;
+        margin-top: 0.75rem !important;
+    }
+
+    /* Horizontal Scroll for Tables */
+    table {
+        min-width: 100% !important;
+    }
+
+    /* Improve Readability */
+    body {
+        font-size: 14px !important;
+    }
+}
+
+/* iPhone X e Notch Support */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    header {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+
+    footer {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+}
+
+/* Landscape Mode */
+@media (max-height: 500px) and (orientation: landscape) {
+    header {
+        padding: 0.5rem 1rem !important;
+    }
+
+    main {
+        padding: 0.5rem !important;
+        min-height: auto !important;
+    }
+
+    .login-container {
+        padding: 1rem !important;
+    }
+
+    .login-header h1 {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem !important;
+    }
+
+    footer {
+        padding: 0.5rem !important;
+        font-size: 0.6rem !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    header,
+    footer,
+    .btn-logout,
+    .btn-home {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    table {
+        border-collapse: collapse !important;
+    }
+}

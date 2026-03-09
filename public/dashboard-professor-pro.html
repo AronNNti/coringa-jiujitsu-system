@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Professor - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #000;
+            border-bottom: 2px solid #ffc107;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .coringa-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-logout {
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #ffb300;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #999;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            color: #999;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            color: #ffc107;
+        }
+
+        .tab-btn.active {
+            color: #ffc107;
+            border-bottom-color: #ffc107;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* SECTION */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #ffc107;
+            font-weight: 700;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+            transform: translateY(-2px);
+        }
+
+        /* FILTERS */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-input,
+        .filter-select {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-input::placeholder {
+            color: #666;
+        }
+
+        /* TABLE */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            color: #ffc107;
+            font-weight: 700;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        tr:hover {
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        /* INLINE EDIT */
+        .editable-cell {
+            cursor: pointer;
+            position: relative;
+            padding: 0.75rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .editable-cell:hover {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .editable-cell input {
+            width: 100%;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ffc107;
+            border-radius: 4px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .editable-cell input:focus {
+            outline: none;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .btn-edit {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .btn-edit:hover {
+            background: rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-delete {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid #f44336;
+        }
+
+        .btn-delete:hover {
+            background: rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-save {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            border: 1px solid #4caf50;
+        }
+
+        .btn-save:hover {
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-cancel {
+            background: rgba(158, 158, 158, 0.2);
+            color: #999;
+            border: 1px solid #999;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(158, 158, 158, 0.3);
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: rgba(76, 175, 80, 0.9);
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.error {
+            background: rgba(244, 67, 54, 0.9);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 1.5rem;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-input,
+            .filter-select {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-sm {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img src="/coringa-header-logo.png" alt="Coringa" class="coringa-logo">
+            <div class="header-title">CORINGA JIU-JITSU</div>
+        </div>
+        <div class="header-right">
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-title">
+            <h1>Dashboard do Professor</h1>
+            <p>Gerencie seus alunos e aulas</p>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('students')">👥 Alunos</button>
+            <button class="tab-btn" onclick="switchTab('classes')">📚 Aulas</button>
+        </div>
+
+        <!-- TAB: STUDENTS -->
+        <div id="students" class="tab-content active">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Gestão de Alunos</div>
+                    <button class="btn-add" onclick="showAddStudentModal()">+ Adicionar Aluno</button>
+                </div>
+
+                <div class="filters">
+                    <input type="text" class="filter-input" id="filterName" placeholder="Filtrar por nome..." onkeyup="filterStudents()">
+                    <select class="filter-select" id="filterBelt" onchange="filterStudents()">
+                        <option value="">Todas as faixas</option>
+                        <option value="branca">Branca</option>
+                        <option value="cinza">Cinza</option>
+                        <option value="amarela">Amarela</option>
+                        <option value="laranja">Laranja</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="roxa">Roxa</option>
+                        <option value="marrom">Marrom</option>
+                        <option value="preta">Preta</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Faixa</th>
+                                <th>Telefone</th>
+                                <th>Data de Cadastro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsBody">
+                            <tr><td colspan="6" class="empty-state">Carregando alunos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: CLASSES -->
+        <div id="classes" class="tab-content">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Gestão de Aulas</div>
+                    <button class="btn-add" onclick="showAddClassModal()">+ Adicionar Aula</button>
+                </div>
+
+                <div class="filters">
+                    <input type="text" class="filter-input" id="filterClassName" placeholder="Filtrar por nome..." onkeyup="filterClasses()">
+                    <select class="filter-select" id="filterLevel" onchange="filterClasses()">
+                        <option value="">Todos os níveis</option>
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table id="classesTable">
+                        <thead>
+                            <tr>
+                                <th>Nome da Aula</th>
+                                <th>Horário</th>
+                                <th>Local</th>
+                                <th>Nível</th>
+                                <th>Alunos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classesBody">
+                            <tr><td colspan="6" class="empty-state">Carregando aulas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/auth.js"></script>
+    <script>
+        let currentUser = null;
+        let students = [];
+        let classes = [];
+        let editingCell = null;
+
+        async function initPage() {
+            const user = getAuth();
+            if (!user || user.role !== 'professor') {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            currentUser = user;
+            await loadStudents();
+            await loadClasses();
+        }
+
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/professor/students');
+                const data = await response.json();
+                students = data.students || [];
+                renderStudents();
+            } catch (error) {
+                console.error('Erro ao carregar alunos:', error);
+                showToast('Erro ao carregar alunos', 'error');
+            }
+        }
+
+        async function loadClasses() {
+            try {
+                const response = await fetch('/api/professor/classes');
+                const data = await response.json();
+                classes = data.classes || [];
+                renderClasses();
+            } catch (error) {
+                console.error('Erro ao carregar aulas:', error);
+                showToast('Erro ao carregar aulas', 'error');
+            }
+        }
+
+        function renderStudents() {
+            const tbody = document.getElementById('studentsBody');
+            
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">📭</div><p>Nenhum aluno cadastrado</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = students.map(student => `
+                <tr>
+                    <td class="editable-cell" onclick="editCell(this, 'name', ${student.id})">${student.name}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'email', ${student.id})">${student.email}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'belt', ${student.id})">${student.belt || 'N/A'}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'phone', ${student.id})">${student.phone || '--'}</td>
+                    <td>${new Date(student.created_at).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-delete" onclick="deleteStudent(${student.id})">Deletar</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderClasses() {
+            const tbody = document.getElementById('classesBody');
+            
+            if (classes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><div class="empty-state-icon">📭</div><p>Nenhuma aula cadastrada</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = classes.map(cls => `
+                <tr>
+                    <td class="editable-cell" onclick="editCell(this, 'name', ${cls.id})">${cls.name}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'time', ${cls.id})">${cls.time}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'location', ${cls.id})">${cls.location}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'level', ${cls.id})">${cls.level}</td>
+                    <td>${cls.students_count || 0}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-delete" onclick="deleteClass(${cls.id})">Deletar</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editCell(cell, field, id) {
+            if (editingCell) {
+                editingCell.classList.remove('editing');
+            }
+
+            const currentValue = cell.textContent;
+            cell.innerHTML = `<input type="text" value="${currentValue}" onblur="saveEdit(this, '${field}', ${id})" onkeypress="handleKeyPress(event, '${field}', ${id})">`;
+            cell.classList.add('editing');
+            cell.querySelector('input').focus();
+            editingCell = cell;
+        }
+
+        async function saveEdit(input, field, id) {
+            const newValue = input.value;
+            
+            try {
+                const endpoint = field === 'name' ? '/api/professor/students' : '/api/professor/classes';
+                const response = await fetch(`${endpoint}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ [field]: newValue })
+                });
+
+                if (response.ok) {
+                    showToast('Alteração salva com sucesso!');
+                    await loadStudents();
+                    await loadClasses();
+                } else {
+                    showToast('Erro ao salvar alteração', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao salvar', 'error');
+            }
+        }
+
+        function handleKeyPress(event, field, id) {
+            if (event.key === 'Enter') {
+                saveEdit(event.target, field, id);
+            } else if (event.key === 'Escape') {
+                editingCell.classList.remove('editing');
+                editingCell = null;
+                renderStudents();
+                renderClasses();
+            }
+        }
+
+        async function deleteStudent(id) {
+            if (!confirm('Tem certeza que deseja deletar este aluno?')) return;
+
+            try {
+                const response = await fetch(`/api/professor/students/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    showToast('Aluno deletado com sucesso!');
+                    await loadStudents();
+                } else {
+                    showToast('Erro ao deletar aluno', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao deletar', 'error');
+            }
+        }
+
+        async function deleteClass(id) {
+            if (!confirm('Tem certeza que deseja deletar esta aula?')) return;
+
+            try {
+                const response = await fetch(`/api/professor/classes/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    showToast('Aula deletada com sucesso!');
+                    await loadClasses();
+                } else {
+                    showToast('Erro ao deletar aula', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao deletar', 'error');
+            }
+        }
+
+        function filterStudents() {
+            const nameFilter = document.getElementById('filterName').value.toLowerCase();
+            const beltFilter = document.getElementById('filterBelt').value;
+
+            const filtered = students.filter(s => 
+                s.name.toLowerCase().includes(nameFilter) &&
+                (!beltFilter || s.belt === beltFilter)
+            );
+
+            const tbody = document.getElementById('studentsBody');
+            tbody.innerHTML = filtered.map(student => `
+                <tr>
+                    <td class="editable-cell" onclick="editCell(this, 'name', ${student.id})">${student.name}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'email', ${student.id})">${student.email}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'belt', ${student.id})">${student.belt || 'N/A'}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'phone', ${student.id})">${student.phone || '--'}</td>
+                    <td>${new Date(student.created_at).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-delete" onclick="deleteStudent(${student.id})">Deletar</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterClasses() {
+            const nameFilter = document.getElementById('filterClassName').value.toLowerCase();
+            const levelFilter = document.getElementById('filterLevel').value;
+
+            const filtered = classes.filter(c => 
+                c.name.toLowerCase().includes(nameFilter) &&
+                (!levelFilter || c.level === levelFilter)
+            );
+
+            const tbody = document.getElementById('classesBody');
+            tbody.innerHTML = filtered.map(cls => `
+                <tr>
+                    <td class="editable-cell" onclick="editCell(this, 'name', ${cls.id})">${cls.name}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'time', ${cls.id})">${cls.time}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'location', ${cls.id})">${cls.location}</td>
+                    <td class="editable-cell" onclick="editCell(this, 'level', ${cls.id})">${cls.level}</td>
+                    <td>${cls.students_count || 0}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-delete" onclick="deleteClass(${cls.id})">Deletar</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showAddStudentModal() {
+            alert('Funcionalidade de adicionar aluno em desenvolvimento');
+        }
+
+        function showAddClassModal() {
+            alert('Funcionalidade de adicionar aula em desenvolvimento');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function logout() {
+            clearAuth();
+            window.location.href = '/login.html';
+        }
+
+        initPage();
+    </script>
+</body>
+</html>

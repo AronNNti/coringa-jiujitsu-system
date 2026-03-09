@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <title>Check-in QR Code - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode.js/1.5.3/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffc107;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .qrcode-container {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px dashed #ffc107;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .qrcode-container.active {
+            display: block;
+        }
+
+        #qrcode {
+            display: inline-block;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .qrcode-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 193, 7, 0.05);
+            border-left: 3px solid #ffc107;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .qrcode-info p {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .qrcode-info strong {
+            color: #ffc107;
+        }
+
+        .timer {
+            font-size: 1.2rem;
+            color: #ffc107;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(255, 76, 76, 0.2);
+            border: 1px solid #ff4c4c;
+            color: #ff4c4c;
+        }
+
+        .info-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Check-in QR Code</h1>
+            <p class="subtitle">Gere um QR code para a aula de hoje</p>
+        </div>
+
+        <div class="info-box">
+            ℹ️ Os alunos escanearão este QR code para fazer check-in da aula. O código expira em 30 minutos.
+        </div>
+
+        <form id="qrcodeForm">
+            <div class="form-group">
+                <label>Nome da Aula</label>
+                <input type="text" id="className" placeholder="Ex: Aula de Terça - Fundamentos" required>
+            </div>
+
+            <div class="form-group">
+                <label>Horário</label>
+                <input type="time" id="classTime" required>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Gerar QR Code</button>
+            <div class="message" id="message"></div>
+        </form>
+
+        <div class="qrcode-container" id="qrcodeContainer">
+            <h3 style="color: #ffc107; margin-bottom: 1rem;">QR Code para Check-in</h3>
+            <div id="qrcode"></div>
+            <div class="timer" id="timer">Expira em: 30:00</div>
+            <div class="qrcode-info">
+                <p><strong>Aula:</strong> <span id="displayClassName"></span></p>
+                <p><strong>Horário:</strong> <span id="displayClassTime"></span></p>
+                <p><strong>Gerado em:</strong> <span id="generatedTime"></span></p>
+            </div>
+            <button type="button" class="btn" onclick="printQRCode()" style="margin-top: 1rem;">Imprimir QR Code</button>
+        </div>
+    </div>
+
+    <script src="/auth.js"></script>
+    <script>
+        let qrcodeInstance = null;
+        let timerInterval = null;
+        let expirationTime = null;
+
+        document.getElementById('qrcodeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const className = document.getElementById('className').value;
+            const classTime = document.getElementById('classTime').value;
+            const user = getUser();
+
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Gerar token único para o check-in
+            const checkInToken = `${user.id}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            
+            // Criar dados para o QR code
+            const qrData = JSON.stringify({
+                type: 'class-checkin',
+                token: checkInToken,
+                professorId: user.id,
+                className: className,
+                classTime: classTime,
+                timestamp: new Date().toISOString()
+            });
+
+            // Limpar QR code anterior
+            if (qrcodeInstance) {
+                document.getElementById('qrcode').innerHTML = '';
+            }
+
+            // Gerar novo QR code
+            qrcodeInstance = new QRCode(document.getElementById('qrcode'), {
+                text: qrData,
+                width: 300,
+                height: 300,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Atualizar informações
+            document.getElementById('displayClassName').textContent = className;
+            document.getElementById('displayClassTime').textContent = classTime;
+            document.getElementById('generatedTime').textContent = new Date().toLocaleTimeString('pt-BR');
+
+            // Mostrar container
+            document.getElementById('qrcodeContainer').classList.add('active');
+
+            // Iniciar timer de expiração (30 minutos)
+            expirationTime = Date.now() + (30 * 60 * 1000);
+            startTimer();
+
+            // Salvar check-in no servidor
+            try {
+                const response = await fetch('/api/checkin/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getToken()}`
+                    },
+                    body: JSON.stringify({
+                        token: checkInToken,
+                        className: className,
+                        classTime: classTime
+                    })
+                });
+
+                if (!response.ok) {
+                    showMessage('Erro ao criar check-in', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao criar check-in:', error);
+            }
+        });
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                const now = Date.now();
+                const remaining = expirationTime - now;
+
+                if (remaining <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').textContent = 'QR Code expirou!';
+                    document.getElementById('timer').style.color = '#ff4c4c';
+                    return;
+                }
+
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                document.getElementById('timer').textContent = `Expira em: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function printQRCode() {
+            const printWindow = window.open('', '', 'height=600,width=600');
+            printWindow.document.write('<html><head><title>QR Code Check-in</title></head><body>');
+            printWindow.document.write('<h1 style="text-align: center;">Check-in QR Code</h1>');
+            printWindow.document.write('<p style="text-align: center;"><strong>Aula:</strong> ' + document.getElementById('displayClassName').textContent + '</p>');
+            printWindow.document.write('<p style="text-align: center;"><strong>Horário:</strong> ' + document.getElementById('displayClassTime').textContent + '</p>');
+            printWindow.document.write(document.getElementById('qrcode').innerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+        }
+
+        // Verificar autenticação
+        window.addEventListener('load', () => {
+            const user = getUser();
+            if (!user || user.role !== 'professor') {
+                window.location.href = '/login.html';
+            }
+
+            // Pré-preencher hora atual
+            const now = new Date();
+            document.getElementById('classTime').value = now.toTimeString().slice(0, 5);
+        });
+
+        // Limpar timer ao sair
+        window.addEventListener('beforeunload', () => {
+            if (timerInterval) clearInterval(timerInterval);
+        });
+    </script>
+</body>
+</html>

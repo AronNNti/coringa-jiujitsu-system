@@ -1,0 +1,675 @@
+/* ========================================
+   CORINGA JIU-JITSU - DESIGN SYSTEM
+   Sistema de Design Profissional e Unificado
+   ======================================== */
+
+/* ========================================
+   1. VARIÁVEIS DE COR
+   ======================================== */
+
+:root {
+    /* Cores Primárias */
+    --primary-gold: #ffc107;
+    --primary-gold-dark: #ffb300;
+    --primary-gold-light: #ffed4e;
+    
+    /* Cores Secundárias */
+    --secondary-black: #000000;
+    --secondary-dark: #1a1a1a;
+    --secondary-darker: #0d0d0d;
+    
+    /* Cores de Status */
+    --success: #4caf50;
+    --success-light: rgba(76, 175, 80, 0.2);
+    --error: #f44336;
+    --error-light: rgba(244, 67, 54, 0.2);
+    --warning: #ff9800;
+    --warning-light: rgba(255, 152, 0, 0.2);
+    --info: #2196f3;
+    --info-light: rgba(33, 150, 243, 0.2);
+    
+    /* Cores Neutras */
+    --neutral-white: #ffffff;
+    --neutral-light: #f5f5f5;
+    --neutral-gray: #999999;
+    --neutral-dark: #666666;
+    
+    /* Faixas de Jiu-Jitsu */
+    --belt-white: #ffffff;
+    --belt-gray: #808080;
+    --belt-yellow: #ffc107;
+    --belt-orange: #ff9800;
+    --belt-green: #4caf50;
+    --belt-blue: #2196f3;
+    --belt-purple: #9c27b0;
+    --belt-brown: #795548;
+    --belt-black: #000000;
+    --belt-coral: #ff7043;
+}
+
+/* ========================================
+   2. TIPOGRAFIA
+   ======================================== */
+
+:root {
+    --font-family: 'Poppins', sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 600;
+    --font-weight-bold: 700;
+    --font-weight-extra-bold: 800;
+    
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.5rem;
+    
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+}
+
+/* ========================================
+   3. ESPAÇAMENTO
+   ======================================== */
+
+:root {
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 2.5rem;
+    --spacing-3xl: 3rem;
+}
+
+/* ========================================
+   4. BORDER RADIUS
+   ======================================== */
+
+:root {
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-2xl: 20px;
+    --radius-full: 9999px;
+}
+
+/* ========================================
+   5. SOMBRAS
+   ======================================== */
+
+:root {
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    
+    --shadow-gold: 0 0 20px rgba(255, 193, 7, 0.3);
+    --shadow-gold-lg: 0 0 40px rgba(255, 193, 7, 0.2);
+}
+
+/* ========================================
+   6. TRANSIÇÕES
+   ======================================== */
+
+:root {
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* ========================================
+   7. RESET E BASE
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background: linear-gradient(135deg, var(--secondary-black) 0%, var(--secondary-dark) 100%);
+    color: var(--neutral-white);
+    line-height: var(--line-height-normal);
+    min-height: 100vh;
+}
+
+/* ========================================
+   8. COMPONENTES - BOTÕES
+   ======================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Variantes de Botão */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-dark) 100%);
+    color: var(--secondary-black);
+    box-shadow: var(--shadow-gold);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-gold-lg);
+    background: linear-gradient(135deg, var(--primary-gold-dark) 0%, #ffa500 100%);
+}
+
+.btn-secondary {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--primary-gold);
+    border: 2px solid var(--primary-gold);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 193, 7, 0.2);
+}
+
+.btn-danger {
+    background: var(--error-light);
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.btn-danger:hover {
+    background: rgba(244, 67, 54, 0.3);
+}
+
+.btn-success {
+    background: var(--success-light);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.btn-success:hover {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.btn-sm {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+}
+
+.btn-lg {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========================================
+   9. COMPONENTES - CARDS
+   ======================================== */
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-base);
+}
+
+.card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-gold);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid rgba(255, 193, 7, 0.2);
+}
+
+.card-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--primary-gold);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* ========================================
+   10. COMPONENTES - INPUTS
+   ======================================== */
+
+input,
+select,
+textarea {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--radius-md);
+    color: var(--neutral-white);
+    transition: all var(--transition-base);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--neutral-gray);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-gold);
+}
+
+/* ========================================
+   11. COMPONENTES - TABELAS
+   ======================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+thead {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+th {
+    padding: var(--spacing-lg);
+    text-align: left;
+    color: var(--primary-gold);
+    font-weight: var(--font-weight-bold);
+    border-bottom: 2px solid var(--primary-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: var(--font-size-sm);
+}
+
+td {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.1);
+}
+
+tbody tr:hover {
+    background: rgba(255, 193, 7, 0.05);
+}
+
+/* ========================================
+   12. COMPONENTES - BADGES
+   ======================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+}
+
+.badge-success {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.badge-error {
+    background: var(--error-light);
+    color: var(--error);
+}
+
+.badge-warning {
+    background: var(--warning-light);
+    color: var(--warning);
+}
+
+.badge-info {
+    background: var(--info-light);
+    color: var(--info);
+}
+
+.badge-gold {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--primary-gold);
+}
+
+/* ========================================
+   13. COMPONENTES - ALERTS
+   ======================================== */
+
+.alert {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.alert-success {
+    background: var(--success-light);
+    border-left-color: var(--success);
+    color: var(--success);
+}
+
+.alert-error {
+    background: var(--error-light);
+    border-left-color: var(--error);
+    color: var(--error);
+}
+
+.alert-warning {
+    background: var(--warning-light);
+    border-left-color: var(--warning);
+    color: var(--warning);
+}
+
+.alert-info {
+    background: var(--info-light);
+    border-left-color: var(--info);
+    color: var(--info);
+}
+
+/* ========================================
+   14. COMPONENTES - LOADER
+   ======================================== */
+
+.spinner {
+    border: 4px solid rgba(255, 193, 7, 0.2);
+    border-top: 4px solid var(--primary-gold);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-3xl);
+    color: var(--primary-gold);
+}
+
+/* ========================================
+   15. COMPONENTES - HEADER
+   ======================================== */
+
+header {
+    background: var(--secondary-black);
+    border-bottom: 2px solid var(--primary-gold);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.header-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.header-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--primary-gold);
+}
+
+/* ========================================
+   16. COMPONENTES - FOOTER
+   ======================================== */
+
+footer {
+    background: var(--secondary-black);
+    border-top: 1px solid rgba(255, 193, 7, 0.2);
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: var(--neutral-gray);
+    margin-top: auto;
+}
+
+/* ========================================
+   17. UTILIDADES
+   ======================================== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+.section {
+    margin-bottom: var(--spacing-3xl);
+}
+
+.section-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-extra-bold);
+    color: var(--primary-gold);
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.section-title::before {
+    content: '';
+    width: 4px;
+    height: var(--font-size-2xl);
+    background: var(--primary-gold);
+    border-radius: 2px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-gold {
+    color: var(--primary-gold);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-error {
+    color: var(--error);
+}
+
+.text-muted {
+    color: var(--neutral-gray);
+}
+
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ========================================
+   18. RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-3xl: 1.75rem;
+        --font-size-2xl: 1.25rem;
+    }
+    
+    header {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .grid-cols-4,
+    .grid-cols-3,
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    table {
+        font-size: var(--font-size-sm);
+    }
+    
+    th, td {
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --spacing-xl: 1.5rem;
+        --spacing-lg: 1rem;
+        --font-size-2xl: 1.1rem;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    input,
+    select,
+    textarea {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   19. ANIMAÇÕES
+   ======================================== */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-in {
+    animation: slideIn var(--transition-base);
+}
+
+.animate-fade-in {
+    animation: fadeIn var(--transition-base);
+}

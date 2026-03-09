@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <title>Dashboard Aluno - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET E BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #ffc107;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 50;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-with-text {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .coringa-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .header-logo-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffc107;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .logo-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 0;
+        }
+
+        .logo-text h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info p {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .user-info strong {
+            color: #ffc107;
+            display: block;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        /* ===== MAIN CONTENT COM MARCA D'ÁGUA ===== */
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Marca d'água centralizada - pseudo-elemento */
+        main::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 600px;
+            background-image: url('/watermark-joker.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Texto motivacional ao lado esquerdo da marca d'água */
+        .motivational-text {
+            position: fixed;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            width: 380px;
+            color: #ffffff;
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            font-weight: 600;
+            text-align: center;
+            line-height: 2.2;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.15;
+            letter-spacing: 1px;
+        }
+
+        /* ===== DASHBOARD HEADER ===== */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 15;
+        }
+
+        .dashboard-header h2 {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: #999;
+        }
+
+        /* ===== CHECK-IN CONTAINER ===== */
+        .checkin-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 500px;
+            position: relative;
+            z-index: 15;
+        }
+
+        .checkin-status {
+            font-size: 3rem;
+            margin: 2rem 0;
+            font-weight: 800;
+        }
+
+        .status-present {
+            color: #4ade80;
+        }
+
+        .status-absent {
+            color: #ef4444;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-checkin {
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .btn-checkin:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+        }
+
+        /* ===== STATS CARDS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 15;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 15;
+        }
+
+        .section h3 {
+            color: #ffc107;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* ===== TABLES ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.1);
+        }
+
+        th {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            font-weight: 700;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 193, 7, 0.1);
+            color: #999;
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 50;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+
+            .checkin-container {
+                padding: 2rem;
+            }
+
+            .dashboard-header h2 {
+                font-size: 1.5rem;
+            }
+
+            main::before {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <div class="logo-with-text">
+                <img src="/coringa-header-logo.png" alt="Coringa" class="coringa-logo">
+                <span class="header-logo-text">CORINGA JIU-JITSU</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <p>Bem-vindo,</p>
+                <strong id="userName">Aluno</strong>
+            </div>
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT COM MARCA D'ÁGUA -->
+    <!-- TEXTO MOTIVACIONAL -->
+    <div class="motivational-text" id="motivational-quote"></div>
+    <main>
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h2>Controle de Presença</h2>
+            <p>Faça seu check-in de aula</p>
+        </div>
+
+        <!-- Check-in Container -->
+        <div class="checkin-container">
+            <h3>Status Hoje</h3>
+            <div class="checkin-status" id="statusDisplay">Não registrado</div>
+            <button class="btn-checkin" onclick="makeCheckin()">Fazer Check-in</button>
+            <p id="timeDisplay" style="color: #999; font-size: 0.9rem;"></p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total de Aulas</h3>
+                <div class="number">32</div>
+            </div>
+            <div class="stat-card">
+                <h3>Presentes</h3>
+                <div class="number" style="color: #4ade80;">28</div>
+            </div>
+            <div class="stat-card">
+                <h3>Ausentes</h3>
+                <div class="number" style="color: #ef4444;">4</div>
+            </div>
+        </div>
+
+        <!-- Histórico de Presenças Section -->
+        <div class="section">
+            <h3>Histórico de Presenças</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>02/02/2026</td>
+                        <td>19:30</td>
+                        <td style="color: #4ade80;">Presente</td>
+                    </tr>
+                    <tr>
+                        <td>01/02/2026</td>
+                        <td>19:25</td>
+                        <td style="color: #4ade80;">Presente</td>
+                    </tr>
+                    <tr>
+                        <td>31/01/2026</td>
+                        <td>-</td>
+                        <td style="color: #ef4444;">Ausente</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Dojo Check - Sistema de Presença</p>
+        <p>Desenvolvido por Aron Nascimento</p>
+    </footer>
+
+    <script>
+        /**
+         * Verifica autenticação do usuário
+         */
+        function checkAuth() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.role !== 'aluno') {
+                window.location.href = '/login.html';
+                return;
+            }
+            document.getElementById('userName').textContent = user.name;
+        }
+
+        /**
+         * Realiza logout do usuário
+         */
+        function logout() {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
+
+        /**
+         * Realiza check-in do aluno
+         */
+        function makeCheckin() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('pt-BR');
+            const date = now.toLocaleDateString('pt-BR');
+            
+            document.getElementById('statusDisplay').textContent = 'Presente';
+            document.getElementById('statusDisplay').className = 'checkin-status status-present';
+            document.getElementById('timeDisplay').textContent = `Check-in realizado em ${time}`;
+            
+            alert(`Check-in realizado com sucesso!\nData: ${date}\nHora: ${time}`);
+        }
+
+        // Inicializar ao carregar página
+        checkAuth();
+
+        // Frases motivacionais sobre Jiu-Jitsu
+        const jiujitsuQuotes = [
+            { text: "A disciplina eh o caminho para a liberdade", author: "Rickson Gracie" },
+            { text: "No Jiu-Jitsu, o mais fraco pode vencer o mais forte", author: "Helio Gracie" },
+            { text: "Treinar Jiu-Jitsu eh treinar para a vida", author: "Rickson Gracie" },
+            { text: "A persistencia no tatame constroi campeoes", author: "Coringa Jiu-Jitsu" },
+            { text: "Cada queda eh uma licao, cada vitoria eh um aprendizado", author: "Coringa Jiu-Jitsu" },
+            { text: "O Jiu-Jitsu nao eh sobre forca, eh sobre tecnica", author: "Carlos Gracie" },
+            { text: "Domine a disciplina, domine o Jiu-Jitsu", author: "Coringa Jiu-Jitsu" },
+            { text: "No tatame, voce descobre quem voce realmente eh", author: "Rickson Gracie" },
+            { text: "Jiu-Jitsu eh a arte de resolver conflitos sem violencia", author: "Rorion Gracie" },
+            { text: "Cada treino eh um passo em direcao a excelencia", author: "Coringa Jiu-Jitsu" }
+        ];
+
+        // Exibir frase aleatoria
+        function displayRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * jiujitsuQuotes.length);
+            const quote = jiujitsuQuotes[randomIndex];
+            const quoteElement = document.getElementById('motivational-quote');
+            quoteElement.innerHTML = '"' + quote.text + '"<br><br><span style="font-size: 0.9rem; font-weight: normal;">- ' + quote.author + '</span>';
+        }
+
+        // Carregar frase ao iniciar a pagina
+        window.addEventListener('load', displayRandomQuote);
+    </script>
+</body>
+</html>
