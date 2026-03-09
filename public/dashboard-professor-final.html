@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Professor - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/design-system.css">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.9);
+            border-right: 2px solid #ffc107;
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .sidebar-logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-menu button {
+            width: 100%;
+            background: transparent;
+            border: 2px solid transparent;
+            color: #999;
+            padding: 1rem 1.2rem;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .sidebar-menu button:hover {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+
+        .sidebar-menu button.active {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .sidebar-menu button::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.5;
+        }
+
+        .sidebar-menu button.active::before {
+            opacity: 1;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #ffb300;
+            transform: scale(1.02);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #ffc107;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+        }
+
+        .welcome-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffc107;
+        }
+
+        .welcome-text .name {
+            color: #fff;
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== TABELAS ===== */
+        .table-container {
+            background: rgba(255, 193, 7, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.1);
+        }
+
+        tr:hover {
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        /* ===== FORMULÁRIOS ===== */
+        .form-section {
+            background: rgba(255, 193, 7, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            color: #ffc107;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            background: rgba(255, 193, 7, 0.1);
+            border-color: #ffb300;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* ===== BOTÕES ===== */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #ffb300;
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #cc0000;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 2px solid #ffc107;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 193, 7, 0.3);
+        }
+
+        /* ===== FILTROS ===== */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-input {
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-input::placeholder {
+            color: rgba(255, 193, 7, 0.5);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 2px solid #ffc107;
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .sidebar-menu li {
+                flex: 1;
+                min-width: 100px;
+                margin-bottom: 0;
+            }
+
+            .sidebar-menu button {
+                padding: 0.6rem;
+                font-size: 0.85rem;
+            }
+
+            .sidebar-footer {
+                position: static;
+                margin-top: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="/coringa-header-logo.png" alt="Coringa">
+        </div>
+
+        <ul class="sidebar-menu">
+            <li><button class="menu-btn active" data-page="alunos">👥 Alunos</button></li>
+            <li><button class="menu-btn" data-page="aulas">📚 Aulas</button></li>
+            <li><button class="menu-btn" data-page="planilhas">📊 Importação</button></li>
+            <li><button class="menu-btn" data-page="configuracoes">⚙️ Configurações</button></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <header>
+            <div class="welcome-text">
+                Bem-vindo Professor <span class="name" id="professorName">Teste</span>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- PÁGINA ALUNOS -->
+            <div id="alunos" class="page active">
+                <h2 style="color: #ffc107; margin-bottom: 2rem; font-size: 2rem;">Gestão de Alunos</h2>
+
+                <!-- FORMULÁRIO ADICIONAR ALUNO -->
+                <div class="form-section">
+                    <h3>➕ Adicionar Novo Aluno</h3>
+                    <form id="formAluno" onsubmit="adicionarAluno(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome Completo *</label>
+                                <input type="text" name="nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="tel" name="telefone">
+                            </div>
+                            <div class="form-group">
+                                <label>Data de Nascimento</label>
+                                <input type="date" name="dataNascimento">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Endereço</label>
+                                <input type="text" name="endereco">
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade</label>
+                                <input type="text" name="cidade">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <input type="text" name="estado" maxlength="2">
+                            </div>
+                            <div class="form-group">
+                                <label>CEP</label>
+                                <input type="text" name="cep">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Faixa *</label>
+                                <select name="faixa" required>
+                                    <option value="">Selecione a faixa</option>
+                                    <option value="Branca">Branca</option>
+                                    <option value="Cinza">Cinza</option>
+                                    <option value="Amarela">Amarela</option>
+                                    <option value="Laranja">Laranja</option>
+                                    <option value="Verde">Verde</option>
+                                    <option value="Azul">Azul</option>
+                                    <option value="Roxa">Roxa</option>
+                                    <option value="Marrom">Marrom</option>
+                                    <option value="Preta">Preta</option>
+                                    <option value="Coral">Coral</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.3rem;">Adicionar Aluno</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- FILTROS -->
+                <div class="filters">
+                    <input type="text" class="filter-input" id="filterNome" placeholder="Filtrar por Nome...">
+                    <input type="text" class="filter-input" id="filterEmail" placeholder="Filtrar por Email...">
+                    <select class="filter-input" id="filterFaixa">
+                        <option value="">Todas as Faixas</option>
+                        <option value="Branca">Branca</option>
+                        <option value="Cinza">Cinza</option>
+                        <option value="Amarela">Amarela</option>
+                        <option value="Laranja">Laranja</option>
+                        <option value="Verde">Verde</option>
+                        <option value="Azul">Azul</option>
+                        <option value="Roxa">Roxa</option>
+                        <option value="Marrom">Marrom</option>
+                        <option value="Preta">Preta</option>
+                        <option value="Coral">Coral</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="limparFiltros()">Limpar Filtros</button>
+                </div>
+
+                <!-- TABELA ALUNOS -->
+                <div class="table-container">
+                    <table id="tabelaAlunos">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Faixa</th>
+                                <th>Data Cadastro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alunosBody">
+                            <tr><td colspan="6" style="text-align: center; color: #999;">Carregando alunos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PÁGINA AULAS -->
+            <div id="aulas" class="page">
+                <h2 style="color: #ffc107; margin-bottom: 2rem; font-size: 2rem;">Gestão de Aulas</h2>
+
+                <!-- FORMULÁRIO ADICIONAR AULA -->
+                <div class="form-section">
+                    <h3>➕ Adicionar Nova Aula</h3>
+                    <form id="formAula" onsubmit="adicionarAula(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome da Aula *</label>
+                                <input type="text" name="nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Horário *</label>
+                                <input type="time" name="horario" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Local/Sala *</label>
+                                <input type="text" name="local" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nível *</label>
+                                <select name="nivel" required>
+                                    <option value="">Selecione o nível</option>
+                                    <option value="Iniciante">Iniciante</option>
+                                    <option value="Intermediário">Intermediário</option>
+                                    <option value="Avançado">Avançado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Adicionar Aula</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- FILTROS -->
+                <div class="filters">
+                    <input type="text" class="filter-input" id="filterNomeAula" placeholder="Filtrar por Nome...">
+                    <select class="filter-input" id="filterNivel">
+                        <option value="">Todos os Níveis</option>
+                        <option value="Iniciante">Iniciante</option>
+                        <option value="Intermediário">Intermediário</option>
+                        <option value="Avançado">Avançado</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="limparFiltrosAulas()">Limpar Filtros</button>
+                </div>
+
+                <!-- TABELA AULAS -->
+                <div class="table-container">
+                    <table id="tabelaAulas">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Horário</th>
+                                <th>Local</th>
+                                <th>Nível</th>
+                                <th>Alunos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="aulasBody">
+                            <tr><td colspan="6" style="text-align: center; color: #999;">Carregando aulas...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PÁGINA PLANILHAS -->
+            <div id="planilhas" class="page">
+                <h2 style="color: #ffc107; margin-bottom: 2rem; font-size: 2rem;">Importação de Dados</h2>
+
+                <div class="form-section">
+                    <h3>📥 Download de Planilhas</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <button class="btn btn-primary" onclick="downloadPlanilhaAlunos()">📥 Alunos</button>
+                        <button class="btn btn-primary" onclick="downloadPlanilhaAulas()">📥 Aulas</button>
+                        <button class="btn btn-primary" onclick="downloadFormularioAluno()">📥 Formulário Aluno</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>📤 Upload de Planilha</h3>
+                    <div class="form-group">
+                        <label>Selecione o arquivo Excel (.xlsx)</label>
+                        <input type="file" id="fileUpload" accept=".xlsx,.xls" style="padding: 1rem; border: 2px dashed #ffc107;">
+                    </div>
+                    <button class="btn btn-primary" onclick="importarPlanilha()">Importar</button>
+                </div>
+            </div>
+
+            <!-- PÁGINA CONFIGURAÇÕES -->
+            <div id="configuracoes" class="page">
+                <h2 style="color: #ffc107; margin-bottom: 2rem; font-size: 2rem;">Configurações</h2>
+
+                <div class="form-section">
+                    <h3>Meus Dados</h3>
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" id="configNome" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="configEmail" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Faixa</label>
+                        <input type="text" id="configFaixa" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== NAVEGAÇÃO =====
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                
+                btn.classList.add('active');
+                const pageId = btn.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // ===== CARREGAR DADOS =====
+        let alunosGlobal = [];
+
+        async function carregarDados() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/professor/students', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao carregar alunos');
+                
+                alunosGlobal = await response.json();
+                
+                const professorName = localStorage.getItem('userName') || 'Teste';
+                document.getElementById('professorName').textContent = professorName;
+                document.getElementById('configNome').value = professorName;
+                document.getElementById('configEmail').value = localStorage.getItem('userEmail') || '';
+                
+                exibirAlunos(alunosGlobal);
+                
+                // Carregar aulas também
+                carregarAulas();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                document.getElementById('alunosBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: #ff4444;">Erro ao carregar alunos</td></tr>';
+            }
+        }
+
+        async function carregarAulas() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/professor/classes', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao carregar aulas');
+                
+                const aulas = await response.json();
+                exibirAulas(aulas);
+            } catch (error) {
+                console.error('Erro ao carregar aulas:', error);
+            }
+        }
+
+        function exibirAlunos(alunos) {
+            const tbody = document.getElementById('alunosBody');
+            if (!alunos || alunos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">Nenhum aluno cadastrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = alunos.map(aluno => `
+                <tr>
+                    <td>${aluno.name || '-'}</td>
+                    <td>${aluno.email || '-'}</td>
+                    <td>${aluno.phone || '-'}</td>
+                    <td><span style="background: rgba(255, 193, 7, 0.2); padding: 0.3rem 0.8rem; border-radius: 4px;">${aluno.belt || '-'}</span></td>
+                    <td>${aluno.createdAt ? new Date(aluno.createdAt).toLocaleDateString('pt-BR') : '-'}</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editarAluno(${aluno.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deletarAluno(${aluno.id})">Deletar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function exibirAulas(aulas) {
+            const tbody = document.getElementById('aulasBody');
+            if (!aulas || aulas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">Nenhuma aula cadastrada</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = aulas.map(aula => `
+                <tr>
+                    <td>${aula.name || '-'}</td>
+                    <td>${aula.time || '-'}</td>
+                    <td>${aula.location || '-'}</td>
+                    <td>${aula.level || '-'}</td>
+                    <td>0</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="editarAula(${aula.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deletarAula(${aula.id})">Deletar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function adicionarAluno(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const dados = {
+                name: formData.get('nome'),
+                email: formData.get('email'),
+                belt: formData.get('faixa') || 'branca'
+            };
+
+            try {
+                const response = await fetch('/api/professor/students', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (response.ok) {
+                    alert('Aluno adicionado com sucesso!');
+                    event.target.reset();
+                    carregarDados();
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.error || 'Erro ao adicionar aluno'));
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar aluno');
+            }
+        }
+
+        function editarAluno(id) {
+            const aluno = alunosGlobal.find(a => a.id === id);
+            if (!aluno) return;
+
+            const novoNome = prompt('Novo nome:', aluno.name);
+            if (novoNome) {
+                atualizarAluno(id, { name: novoNome });
+            }
+        }
+
+        async function atualizarAluno(id, dados) {
+            try {
+                const response = await fetch(`/api/professor/students/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (response.ok) {
+                    alert('Aluno atualizado com sucesso!');
+                    carregarDados();
+                } else {
+                    alert('Erro ao atualizar aluno');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar aluno');
+            }
+        }
+
+        async function deletarAluno(id) {
+            if (confirm('Tem certeza que deseja deletar este aluno?')) {
+                try {
+                    const response = await fetch(`/api/professor/students/${id}`, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        alert('Aluno deletado com sucesso!');
+                        carregarDados();
+                    } else {
+                        alert('Erro ao deletar aluno');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao deletar aluno');
+                }
+            }
+        }
+
+        async function adicionarAula(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const dados = {
+                name: formData.get('nome'),
+                time: formData.get('horario'),
+                location: formData.get('local'),
+                level: formData.get('nivel')
+            };
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/professor/classes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (response.ok) {
+                    alert('Aula adicionada com sucesso!');
+                    event.target.reset();
+                    carregarAulas();
+                } else {
+                    alert('Erro ao adicionar aula');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar aula');
+            }
+        }
+
+        function editarAula(id) {
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function deletarAula(id) {
+            if (confirm('Tem certeza que deseja deletar esta aula?')) {
+                alert('Funcionalidade em desenvolvimento');
+            }
+        }
+        function limparFiltros() {
+            document.getElementById('filterNome').value = '';
+            document.getElementById('filterEmail').value = '';
+            document.getElementById('filterFaixa').value = '';
+            exibirAlunos(alunosGlobal);
+        }
+
+        // Adicionar event listeners aos filtros
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('filterNome').addEventListener('input', filtrarAlunos);
+            document.getElementById('filterEmail').addEventListener('input', filtrarAlunos);
+            document.getElementById('filterFaixa').addEventListener('change', filtrarAlunos);
+        });
+
+        function filtrarAlunos() {
+            const nome = document.getElementById('filterNome').value.toLowerCase();
+            const email = document.getElementById('filterEmail').value.toLowerCase();
+            const faixa = document.getElementById('filterFaixa').value;
+
+            const filtrados = alunosGlobal.filter(aluno => {
+                const nomeMatch = (aluno.name || '').toLowerCase().includes(nome);
+                const emailMatch = (aluno.email || '').toLowerCase().includes(email);
+                const faixaMatch = !faixa || aluno.belt === faixa;
+                return nomeMatch && emailMatch && faixaMatch;
+            });
+
+            exibirAlunos(filtrados);
+        }    exibirAlunos(alunosGlobal);
+        }
+
+        // Adicionar event listeners aos filtros
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('filterNome').addEventListener('input', filtrarAlunos);
+            document.getElementById('filterEmail').addEventListener('input', filtrarAlunos);
+            document.getElementById('filterFaixa').addEventListener('change', filtrarAlunos);
+        });
+
+        function filtrarAlunos() {
+            const nome = document.getElementById('filterNome').value.toLowerCase();
+            const email = document.getElementById('filterEmail').value.toLowerCase();
+            const faixa = document.getElementById('filterFaixa').value;
+
+            const filtrados = alunosGlobal.filter(aluno => {
+                const nomeMatch = (aluno.name || '').toLowerCase().includes(nome);
+                const emailMatch = (aluno.email || '').toLowerCase().includes(email);
+                const faixaMatch = !faixa || (aluno.belt || aluno.faixa) === faixa;
+                return nomeMatch && emailMatch && faixaMatch;
+            });
+
+            exibirAlunos(filtrados);
+        }
+
+        function limparFiltrosAulas() {
+            document.getElementById('filterNomeAula').value = '';
+            document.getElementById('filterNivel').value = '';
+            carregarAulas();
+        }
+
+        function downloadPlanilhaAlunos() {
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function downloadPlanilhaAulas() {
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function downloadFormularioAluno() {
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function importarPlanilha() {
+            alert('Funcionalidade em desenvolvimento');
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/login.html';
+        }
+
+        // Carregar dados ao abrir
+        carregarDados();
+    </script>
+</body>
+</html>

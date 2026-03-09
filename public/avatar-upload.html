@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <title>Meu Avatar - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .avatar-preview {
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px dashed #ffc107;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-placeholder {
+            color: #666;
+            font-size: 3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffc107;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 1rem;
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #ffc107;
+        }
+
+        .file-input-label:hover {
+            background: rgba(255, 193, 7, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .belt-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .belt-option {
+            padding: 1rem;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .belt-option:hover {
+            background: rgba(255, 193, 7, 0.1);
+            transform: scale(1.05);
+        }
+
+        .belt-option.selected {
+            background: rgba(255, 193, 7, 0.3);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+        }
+
+        .belt-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+        }
+
+        .belt-name {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(255, 76, 76, 0.2);
+            border: 1px solid #ff4c4c;
+            color: #ff4c4c;
+        }
+
+        .info-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Meu Avatar</h1>
+            <p class="subtitle">Personalize sua foto de perfil com a cor da sua faixa</p>
+        </div>
+
+        <div class="info-box">
+            ℹ️ Escolha uma foto clara do seu rosto. A imagem será exibida em um formato circular com a cor da sua faixa.
+        </div>
+
+        <div class="avatar-preview" id="avatarPreview">
+            <div class="avatar-placeholder">📷</div>
+        </div>
+
+        <form id="avatarForm">
+            <div class="form-group">
+                <label>Foto do Rosto</label>
+                <input type="file" id="photoInput" accept="image/*" required>
+                <label for="photoInput" class="file-input-label">
+                    Clique para selecionar uma foto
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>Sua Faixa</label>
+                <div class="belt-selector" id="beltSelector">
+                    <!-- Faixas serão carregadas aqui -->
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn">Salvar Avatar</button>
+            <div class="message" id="message"></div>
+        </form>
+    </div>
+
+    <script src="/auth.js"></script>
+    <script>
+        // Cores das faixas de Jiu-Jitsu
+        const belts = [
+            { id: 'white-kid', name: 'Branca Infantil', color: '#ffffff' },
+            { id: 'gray-kid', name: 'Cinza Infantil', color: '#808080' },
+            { id: 'yellow-kid', name: 'Amarela Infantil', color: '#ffc107' },
+            { id: 'orange-kid', name: 'Laranja Infantil', color: '#ff9800' },
+            { id: 'green-kid', name: 'Verde Infantil', color: '#4caf50' },
+            { id: 'white', name: 'Branca', color: '#ffffff' },
+            { id: 'gray', name: 'Cinza', color: '#808080' },
+            { id: 'yellow', name: 'Amarela', color: '#ffc107' },
+            { id: 'orange', name: 'Laranja', color: '#ff9800' },
+            { id: 'red', name: 'Vermelha', color: '#f44336' },
+            { id: 'blue', name: 'Azul', color: '#2196f3' },
+            { id: 'purple', name: 'Roxa', color: '#9c27b0' },
+            { id: 'brown', name: 'Marrom', color: '#8b4513' },
+            { id: 'black', name: 'Preta', color: '#000000' },
+            { id: 'coral', name: 'Coral', color: '#ff7f50' }
+        ];
+
+        let selectedBelt = null;
+        let selectedFile = null;
+
+        // Carregar seletor de faixas
+        function loadBeltSelector() {
+            const selector = document.getElementById('beltSelector');
+            belts.forEach(belt => {
+                const option = document.createElement('div');
+                option.className = 'belt-option';
+                option.innerHTML = `
+                    <div class="belt-color" style="background-color: ${belt.color}; border: 2px solid ${belt.color === '#ffffff' ? '#999' : 'transparent'};"></div>
+                    <div class="belt-name">${belt.name}</div>
+                `;
+                option.addEventListener('click', () => selectBelt(belt.id, option));
+                selector.appendChild(option);
+            });
+        }
+
+        function selectBelt(beltId, element) {
+            document.querySelectorAll('.belt-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedBelt = beltId;
+        }
+
+        // Carregar preview da foto
+        document.getElementById('photoInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const preview = document.getElementById('avatarPreview');
+                    preview.innerHTML = `<img src="${event.target.result}" alt="Avatar">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Enviar formulário
+        document.getElementById('avatarForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedFile) {
+                showMessage('Selecione uma foto', 'error');
+                return;
+            }
+
+            if (!selectedBelt) {
+                showMessage('Selecione uma faixa', 'error');
+                return;
+            }
+
+            const user = getUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('photo', selectedFile);
+            formData.append('belt', selectedBelt);
+
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = 'Salvando...';
+
+            try {
+                const response = await fetch('/api/avatar/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getToken()}`
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Avatar salvo com sucesso!', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard-aluno.html';
+                    }, 2000);
+                } else {
+                    showMessage(data.message || 'Erro ao salvar avatar', 'error');
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('submitBtn').textContent = 'Salvar Avatar';
+                }
+            } catch (error) {
+                showMessage('Erro ao conectar com servidor', 'error');
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').textContent = 'Salvar Avatar';
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+        }
+
+        // Verificar autenticação
+        window.addEventListener('load', () => {
+            const user = getUser();
+            if (!user) {
+                window.location.href = '/login.html';
+            }
+            loadBeltSelector();
+        });
+    </script>
+</body>
+</html>

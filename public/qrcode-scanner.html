@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <title>Scanner QR Code - Coringa Jiu-Jitsu</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 0.95rem;
+        }
+
+        .scanner-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        canvas {
+            display: none;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            border: 3px solid #ffc107;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+            pointer-events: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.5);
+        }
+
+        .btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(255, 76, 76, 0.2);
+            border: 1px solid #ff4c4c;
+            color: #ff4c4c;
+        }
+
+        .info-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .checkin-result {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .checkin-result.active {
+            display: block;
+        }
+
+        .checkin-result h3 {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .checkin-result p {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .checkin-result strong {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Scanner QR Code</h1>
+            <p class="subtitle">Escaneie o QR code da aula</p>
+        </div>
+
+        <div class="info-box">
+            ℹ️ Aponte a câmera para o QR code gerado pelo professor para fazer check-in.
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="scanner-container">
+            <video id="video" autoplay></video>
+            <canvas id="canvas"></canvas>
+            <div class="scanner-overlay"></div>
+        </div>
+
+        <button type="button" class="btn" id="startBtn" onclick="startScanner()">Iniciar Scanner</button>
+        <button type="button" class="btn" id="stopBtn" onclick="stopScanner()" style="display: none;">Parar Scanner</button>
+
+        <div class="checkin-result" id="checkinResult">
+            <h3>✓ Check-in Realizado!</h3>
+            <p><strong>Aula:</strong> <span id="resultClassName"></span></p>
+            <p><strong>Horário:</strong> <span id="resultClassTime"></span></p>
+            <p><strong>Hora do Check-in:</strong> <span id="resultTime"></span></p>
+        </div>
+    </div>
+
+    <script src="/auth.js"></script>
+    <script>
+        let video = null;
+        let canvas = null;
+        let canvasContext = null;
+        let scanning = false;
+        let scanningInterval = null;
+
+        function startScanner() {
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            canvasContext = canvas.getContext('2d');
+
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                .then(stream => {
+                    video.srcObject = stream;
+                    scanning = true;
+                    document.getElementById('startBtn').style.display = 'none';
+                    document.getElementById('stopBtn').style.display = 'block';
+                    scanQRCode();
+                })
+                .catch(error => {
+                    showMessage('Erro ao acessar câmera: ' + error.message, 'error');
+                });
+        }
+
+        function stopScanner() {
+            scanning = false;
+            if (video && video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+            if (scanningInterval) clearInterval(scanningInterval);
+            document.getElementById('startBtn').style.display = 'block';
+            document.getElementById('stopBtn').style.display = 'none';
+        }
+
+        function scanQRCode() {
+            if (!scanning) return;
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+            if (code) {
+                try {
+                    const data = JSON.parse(code.data);
+                    if (data.type === 'class-checkin') {
+                        handleCheckIn(data);
+                        return;
+                    }
+                } catch (error) {
+                    // Não é um QR code válido
+                }
+            }
+
+            scanningInterval = setTimeout(scanQRCode, 500);
+        }
+
+        async function handleCheckIn(data) {
+            const user = getUser();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            stopScanner();
+
+            try {
+                const response = await fetch('/api/checkin/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${getToken()}`
+                    },
+                    body: JSON.stringify({
+                        token: data.token,
+                        studentId: user.id
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('resultClassName').textContent = data.className;
+                    document.getElementById('resultClassTime').textContent = data.classTime;
+                    document.getElementById('resultTime').textContent = new Date().toLocaleTimeString('pt-BR');
+                    document.getElementById('checkinResult').classList.add('active');
+                    showMessage('Check-in realizado com sucesso!', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = '/dashboard-aluno.html';
+                    }, 3000);
+                } else {
+                    showMessage(result.message || 'Erro ao fazer check-in', 'error');
+                    startScanner();
+                }
+            } catch (error) {
+                showMessage('Erro ao conectar com servidor', 'error');
+                startScanner();
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+        }
+
+        // Verificar autenticação
+        window.addEventListener('load', () => {
+            const user = getUser();
+            if (!user) {
+                window.location.href = '/login.html';
+            }
+        });
+
+        // Parar scanner ao sair
+        window.addEventListener('beforeunload', () => {
+            if (scanning) stopScanner();
+        });
+    </script>
+</body>
+</html>

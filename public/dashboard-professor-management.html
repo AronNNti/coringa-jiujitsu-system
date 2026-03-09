@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/mobile-responsive.css">
+    <title>Gestão - Dashboard Professor</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #000;
+            border-bottom: 2px solid #ffc107;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .coringa-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #ffc107;
+        }
+
+        .btn-logout {
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #999;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: #ffc107;
+            border-bottom-color: #ffc107;
+        }
+
+        .tab-btn:hover {
+            color: #ffc107;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffc107;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #ffb300;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #333;
+            color: #ffc107;
+            border: 2px solid #ffc107;
+        }
+
+        .btn-secondary:hover {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 0.7rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-group select {
+            max-width: 200px;
+        }
+
+        .filter-group input::placeholder {
+            color: #666;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            overflow-x: auto;
+            padding: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            color: #ffc107;
+            font-weight: 600;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        tr:hover {
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-edit:hover {
+            background: #ffb300;
+        }
+
+        .btn-delete:hover {
+            background: #cc0000;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #000;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffc107;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input::placeholder {
+            color: #666;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            background: #333;
+            color: #fff;
+            border: 2px solid #666;
+        }
+
+        .btn-cancel:hover {
+            background: #444;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #ffc107;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 193, 7, 0.2);
+            border-top: 3px solid #ffc107;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img src="/coringa-header-logo.png" alt="Coringa" class="coringa-logo">
+            <div class="header-title">CORINGA JIU-JITSU</div>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <div class="user-name" id="userName">Professor</div>
+            </div>
+            <button class="btn-logout" onclick="logout()">Sair</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('students')">Gestão de Alunos</button>
+            <button class="tab-btn" onclick="switchTab('classes')">Gestão de Aulas</button>
+            <button class="tab-btn" onclick="switchTab('import')">Importação de Dados</button>
+        </div>
+
+        <!-- ABA 1: Gestão de Alunos -->
+        <div id="students" class="tab-content active">
+            <div class="section-header">
+                <h2 class="section-title">Gestão de Alunos</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="openAddStudentModal()">+ Adicionar Aluno</button>
+                    <button class="btn btn-secondary" onclick="downloadStudentsExcel()">📥 Baixar Planilha</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <input type="text" id="filterStudentName" placeholder="Filtrar por nome..." onkeyup="filterStudents()">
+                </div>
+                <div class="filter-group">
+                    <select id="filterStudentBelt" onchange="filterStudents()">
+                        <option value="">Todas as faixas</option>
+                        <option value="branca">Branca</option>
+                        <option value="branca-infantil">Branca Infantil</option>
+                        <option value="cinza">Cinza</option>
+                        <option value="cinza-infantil">Cinza Infantil</option>
+                        <option value="amarela">Amarela</option>
+                        <option value="amarela-infantil">Amarela Infantil</option>
+                        <option value="laranja">Laranja</option>
+                        <option value="laranja-infantil">Laranja Infantil</option>
+                        <option value="verde">Verde</option>
+                        <option value="verde-infantil">Verde Infantil</option>
+                        <option value="azul">Azul</option>
+                        <option value="roxa">Roxa</option>
+                        <option value="marrom">Marrom</option>
+                        <option value="preta">Preta</option>
+                        <option value="coral">Coral</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div id="studentsLoading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    Carregando alunos...
+                </div>
+                <table id="studentsTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Faixa</th>
+                            <th>Data de Cadastro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsBody">
+                    </tbody>
+                </table>
+                <div id="studentsEmpty" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">📚</div>
+                    <p>Nenhum aluno encontrado</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 2: Gestão de Aulas -->
+        <div id="classes" class="tab-content">
+            <div class="section-header">
+                <h2 class="section-title">Gestão de Aulas</h2>
+                <div class="btn-group">
+                    <button class="btn" onclick="openAddClassModal()">+ Adicionar Aula</button>
+                    <button class="btn btn-secondary" onclick="downloadClassesExcel()">📥 Baixar Planilha</button>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <select id="filterClassLevel" onchange="filterClasses()">
+                        <option value="">Todos os níveis</option>
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div id="classesLoading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    Carregando aulas...
+                </div>
+                <table id="classesTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Nome da Aula</th>
+                            <th>Horário</th>
+                            <th>Local</th>
+                            <th>Nível</th>
+                            <th>Data de Criação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classesBody">
+                    </tbody>
+                </table>
+                <div id="classesEmpty" class="empty-state" style="display: none;">
+                    <div class="empty-state-icon">📅</div>
+                    <p>Nenhuma aula encontrada</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 3: Importação de Dados -->
+        <div id="import" class="tab-content">
+            <div class="section-header">
+                <h2 class="section-title">Importação de Dados</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- Baixar Planilha em Branco -->
+                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid #ffc107; border-radius: 10px; padding: 2rem; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                    <h3 style="color: #ffc107; margin-bottom: 1rem;">Planilha em Branco</h3>
+                    <p style="color: #999; margin-bottom: 1.5rem;">Baixe uma planilha pronta para o novo aluno preencher com todos os dados necessários para se afiliar à academia.</p>
+                    <button class="btn" onclick="downloadBlankStudentForm()">Baixar Planilha</button>
+                </div>
+
+                <!-- Upload de Planilha -->
+                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid #ffc107; border-radius: 10px; padding: 2rem; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📤</div>
+                    <h3 style="color: #ffc107; margin-bottom: 1rem;">Importar Alunos</h3>
+                    <p style="color: #999; margin-bottom: 1.5rem;">Faça upload de uma planilha com múltiplos alunos para importar em massa.</p>
+                    <input type="file" id="importFile" accept=".xlsx,.xls,.csv" style="display: none;" onchange="importStudents()">
+                    <button class="btn" onclick="document.getElementById('importFile').click()">Selecionar Arquivo</button>
+                </div>
+            </div>
+
+            <div id="importHistory" style="margin-top: 3rem;">
+                <h3 style="color: #ffc107; margin-bottom: 1.5rem;">Histórico de Importações</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Arquivo</th>
+                                <th>Alunos Importados</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="importHistoryBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #999;">Nenhuma importação realizada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Aluno -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Adicionar Novo Aluno</div>
+            <form onsubmit="saveStudent(event)">
+                <div class="form-group">
+                    <label for="studentName">Nome</label>
+                    <input type="text" id="studentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentEmail">Email</label>
+                    <input type="email" id="studentEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="studentBelt">Faixa</label>
+                    <select id="studentBelt" required>
+                        <option value="branca">Branca</option>
+                        <option value="branca-infantil">Branca Infantil</option>
+                        <option value="cinza">Cinza</option>
+                        <option value="cinza-infantil">Cinza Infantil</option>
+                        <option value="amarela">Amarela</option>
+                        <option value="amarela-infantil">Amarela Infantil</option>
+                        <option value="laranja">Laranja</option>
+                        <option value="laranja-infantil">Laranja Infantil</option>
+                        <option value="verde">Verde</option>
+                        <option value="verde-infantil">Verde Infantil</option>
+                        <option value="azul">Azul</option>
+                        <option value="roxa">Roxa</option>
+                        <option value="marrom">Marrom</option>
+                        <option value="preta">Preta</option>
+                        <option value="coral">Coral</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('addStudentModal')">Cancelar</button>
+                    <button type="submit" class="btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar Aula -->
+    <div id="addClassModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Adicionar Nova Aula</div>
+            <form onsubmit="saveClass(event)">
+                <div class="form-group">
+                    <label for="className">Nome da Aula</label>
+                    <input type="text" id="className" required>
+                </div>
+                <div class="form-group">
+                    <label for="classTime">Horário</label>
+                    <input type="time" id="classTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="classLocation">Local</label>
+                    <input type="text" id="classLocation" required>
+                </div>
+                <div class="form-group">
+                    <label for="classLevel">Nível</label>
+                    <select id="classLevel" required>
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="closeModal('addClassModal')">Cancelar</button>
+                    <button type="submit" class="btn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Coringa Jiu-Jitsu - Sistema de Gestão</p>
+    </footer>
+
+    <script src="/auth.js"></script>
+    <script>
+        let allStudents = [];
+        let allClasses = [];
+
+        // Inicializar página
+        async function initPage() {
+            const user = getAuth();
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = `Prof. ${user.name}`;
+            loadStudents();
+            loadClasses();
+        }
+
+        // Carregar alunos
+        async function loadStudents() {
+            try {
+                document.getElementById('studentsLoading').style.display = 'block';
+                document.getElementById('studentsTable').style.display = 'none';
+                document.getElementById('studentsEmpty').style.display = 'none';
+
+                const response = await fetch('/api/professor/students');
+                const students = await response.json();
+                allStudents = students;
+                renderStudents(students);
+
+                document.getElementById('studentsLoading').style.display = 'none';
+                if (students.length === 0) {
+                    document.getElementById('studentsEmpty').style.display = 'block';
+                } else {
+                    document.getElementById('studentsTable').style.display = 'table';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar alunos:', error);
+                document.getElementById('studentsLoading').style.display = 'none';
+                document.getElementById('studentsEmpty').style.display = 'block';
+            }
+        }
+
+        // Renderizar alunos
+        function renderStudents(students) {
+            const tbody = document.getElementById('studentsBody');
+            tbody.innerHTML = '';
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.belt || 'N/A'}</td>
+                    <td>${new Date(student.createdAt).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editStudent(${student.id})">Editar</button>
+                        <button class="btn-delete" onclick="deleteStudent(${student.id})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filtrar alunos
+        function filterStudents() {
+            const name = document.getElementById('filterStudentName').value.toLowerCase();
+            const belt = document.getElementById('filterStudentBelt').value;
+
+            const filtered = allStudents.filter(student => {
+                const matchName = student.name.toLowerCase().includes(name);
+                const matchBelt = !belt || student.belt === belt;
+                return matchName && matchBelt;
+            });
+
+            renderStudents(filtered);
+        }
+
+        // Carregar aulas
+        async function loadClasses() {
+            try {
+                document.getElementById('classesLoading').style.display = 'block';
+                document.getElementById('classesTable').style.display = 'none';
+                document.getElementById('classesEmpty').style.display = 'none';
+
+                const response = await fetch('/api/professor/classes');
+                const classes = await response.json();
+                allClasses = classes;
+                renderClasses(classes);
+
+                document.getElementById('classesLoading').style.display = 'none';
+                if (classes.length === 0) {
+                    document.getElementById('classesEmpty').style.display = 'block';
+                } else {
+                    document.getElementById('classesTable').style.display = 'table';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar aulas:', error);
+                document.getElementById('classesLoading').style.display = 'none';
+                document.getElementById('classesEmpty').style.display = 'block';
+            }
+        }
+
+        // Renderizar aulas
+        function renderClasses(classes) {
+            const tbody = document.getElementById('classesBody');
+            tbody.innerHTML = '';
+
+            classes.forEach(cls => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${cls.name}</td>
+                    <td>${cls.time}</td>
+                    <td>${cls.location}</td>
+                    <td>${cls.level}</td>
+                    <td>${new Date(cls.createdAt).toLocaleDateString('pt-BR')}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editClass(${cls.id})">Editar</button>
+                        <button class="btn-delete" onclick="deleteClass(${cls.id})">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filtrar aulas
+        function filterClasses() {
+            const level = document.getElementById('filterClassLevel').value;
+
+            const filtered = allClasses.filter(cls => {
+                return !level || cls.level === level;
+            });
+
+            renderClasses(filtered);
+        }
+
+        // Abrir modal adicionar aluno
+        function openAddStudentModal() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentEmail').value = '';
+            document.getElementById('studentBelt').value = 'branca';
+            document.getElementById('addStudentModal').classList.add('active');
+        }
+
+        // Salvar aluno
+        async function saveStudent(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const belt = document.getElementById('studentBelt').value;
+
+            try {
+                const response = await fetch('/api/professor/students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, belt })
+                });
+
+                if (response.ok) {
+                    closeModal('addStudentModal');
+                    loadStudents();
+                    alert('Aluno adicionado com sucesso!');
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + error.error);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar aluno:', error);
+                alert('Erro ao salvar aluno');
+            }
+        }
+
+        // Editar aluno
+        function editStudent(id) {
+            alert('Funcionalidade de edição em desenvolvimento');
+        }
+
+        // Deletar aluno
+        async function deleteStudent(id) {
+            if (confirm('Tem certeza que deseja deletar este aluno?')) {
+                try {
+                    const response = await fetch(`/api/professor/students/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        loadStudents();
+                        alert('Aluno deletado com sucesso!');
+                    } else {
+                        alert('Erro ao deletar aluno');
+                    }
+                } catch (error) {
+                    console.error('Erro ao deletar aluno:', error);
+                    alert('Erro ao deletar aluno');
+                }
+            }
+        }
+
+        // Abrir modal adicionar aula
+        function openAddClassModal() {
+            document.getElementById('className').value = '';
+            document.getElementById('classTime').value = '';
+            document.getElementById('classLocation').value = '';
+            document.getElementById('classLevel').value = 'iniciante';
+            document.getElementById('addClassModal').classList.add('active');
+        }
+
+        // Salvar aula
+        async function saveClass(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('className').value;
+            const time = document.getElementById('classTime').value;
+            const location = document.getElementById('classLocation').value;
+            const level = document.getElementById('classLevel').value;
+
+            try {
+                const response = await fetch('/api/professor/classes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, time, location, level })
+                });
+
+                if (response.ok) {
+                    closeModal('addClassModal');
+                    loadClasses();
+                    alert('Aula adicionada com sucesso!');
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + error.error);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar aula:', error);
+                alert('Erro ao salvar aula');
+            }
+        }
+
+        // Editar aula
+        function editClass(id) {
+            alert('Funcionalidade de edição em desenvolvimento');
+        }
+
+        // Deletar aula
+        async function deleteClass(id) {
+            if (confirm('Tem certeza que deseja deletar esta aula?')) {
+                try {
+                    const response = await fetch(`/api/professor/classes/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        loadClasses();
+                        alert('Aula deletada com sucesso!');
+                    } else {
+                        alert('Erro ao deletar aula');
+                    }
+                } catch (error) {
+                    console.error('Erro ao deletar aula:', error);
+                    alert('Erro ao deletar aula');
+                }
+            }
+        }
+
+        // Download de planilha de alunos
+        function downloadStudentsExcel() {
+            window.location.href = '/api/excel/students';
+        }
+
+        // Download de planilha de aulas
+        function downloadClassesExcel() {
+            window.location.href = '/api/excel/classes';
+        }
+
+        // Download de planilha em branco
+        function downloadBlankStudentForm() {
+            window.location.href = '/api/excel/blank-student-form';
+        }
+
+        // Importar alunos
+        async function importStudents() {
+            const fileInput = document.getElementById('importFile');
+            const file = fileInput.files[0];
+
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/api/excel/import-students', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`Importação concluída!\n${result.message}`);
+                    if (result.errors.length > 0) {
+                        console.log('Erros:', result.errors);
+                    }
+                    loadStudents();
+                    fileInput.value = '';
+                } else {
+                    alert('Erro: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Erro ao importar:', error);
+                alert('Erro ao importar arquivo');
+            }
+        }
+
+        // Trocar aba
+        function switchTab(tabName) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remover classe active de todos os botões
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar aba selecionada
+            document.getElementById(tabName).classList.add('active');
+
+            // Adicionar classe active ao botão clicado
+            event.target.classList.add('active');
+        }
+
+        // Fechar modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Logout
+        function logout() {
+            clearAuth();
+            window.location.href = '/login.html';
+        }
+
+        // Inicializar
+        initPage();
+    </script>
+</body>
+</html>
