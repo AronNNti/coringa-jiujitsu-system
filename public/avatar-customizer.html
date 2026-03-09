@@ -1,510 +1,541 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Personalizar Avatar - Coringa Jiu-Jitsu</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/mobile-responsive.css">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/mobile-responsive.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        color: #fff;
+        min-height: 100vh;
+      }
 
-        header {
-            background: #000;
-            border-bottom: 2px solid #ffc107;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      header {
+        background: #000;
+        border-bottom: 2px solid #ffc107;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
 
-        .coringa-logo {
-            width: 40px;
-            height: 40px;
-        }
+      .coringa-logo {
+        width: 40px;
+        height: 40px;
+      }
 
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #ffc107;
-        }
+      .header-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ffc107;
+      }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
 
-        .btn-logout {
-            background: #ffc107;
-            color: #000;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+      .btn-logout {
+        background: #ffc107;
+        color: #000;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
 
-        .btn-logout:hover {
-            background: #ffb300;
-        }
+      .btn-logout:hover {
+        background: #ffb300;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
 
-        .page-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+      .page-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
 
-        .page-title h1 {
-            font-size: 2.5rem;
-            color: #ffc107;
-            margin-bottom: 0.5rem;
-        }
+      .page-title h1 {
+        font-size: 2.5rem;
+        color: #ffc107;
+        margin-bottom: 0.5rem;
+      }
 
-        .page-title p {
-            color: #999;
-            font-size: 1.1rem;
-        }
+      .page-title p {
+        color: #999;
+        font-size: 1.1rem;
+      }
 
+      .customizer-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: start;
+      }
+
+      /* PREVIEW SECTION */
+      .preview-section {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid #ffc107;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .preview-title {
+        font-size: 1.3rem;
+        color: #ffc107;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+
+      .avatar-preview {
+        width: 250px;
+        height: 250px;
+        margin: 0 auto 2rem;
+        background: rgba(0, 0, 0, 0.3);
+        border: 3px solid #ffc107;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .kimono-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .kimono-svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+      }
+
+      .preview-info {
+        background: rgba(255, 193, 7, 0.1);
+        border-left: 4px solid #ffc107;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+      }
+
+      .preview-info-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+      }
+
+      .preview-info-label {
+        color: #999;
+        font-weight: 600;
+      }
+
+      .preview-info-value {
+        color: #ffc107;
+        font-weight: 700;
+      }
+
+      /* CUSTOMIZER SECTION */
+      .customizer-section {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid #ffc107;
+        border-radius: 15px;
+        padding: 2rem;
+      }
+
+      .customizer-title {
+        font-size: 1.3rem;
+        color: #ffc107;
+        margin-bottom: 2rem;
+        font-weight: 700;
+      }
+
+      .customizer-group {
+        margin-bottom: 2.5rem;
+      }
+
+      .customizer-group-title {
+        font-size: 1rem;
+        color: #fff;
+        margin-bottom: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .belt-colors {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .belt-option {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .belt-option:hover {
+        background: rgba(255, 193, 7, 0.1);
+        border-color: #ffc107;
+      }
+
+      .belt-option input[type="radio"] {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+      }
+
+      .belt-color-sample {
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .belt-option label {
+        cursor: pointer;
+        flex: 1;
+        font-weight: 600;
+      }
+
+      .belt-option input[type="radio"]:checked + label {
+        color: #ffc107;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.75rem;
+        color: #ffc107;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .file-input-label {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 193, 7, 0.1);
+        border: 2px dashed #ffc107;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        color: #ffc107;
+      }
+
+      .file-input-label:hover {
+        background: rgba(255, 193, 7, 0.2);
+      }
+
+      .file-input-label input {
+        display: none;
+      }
+
+      .buttons-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        flex: 1;
+        padding: 1rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+        color: #000;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffc107;
+        border: 2px solid #ffc107;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 193, 7, 0.2);
+      }
+
+      .success-message {
+        display: none;
+        background: rgba(76, 175, 80, 0.2);
+        border-left: 4px solid #4caf50;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        color: #4caf50;
+        font-weight: 600;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 193, 7, 0.2);
+      }
+
+      @media (max-width: 768px) {
         .customizer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        /* PREVIEW SECTION */
-        .preview-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid #ffc107;
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .preview-title {
-            font-size: 1.3rem;
-            color: #ffc107;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
+          grid-template-columns: 1fr;
+          gap: 2rem;
         }
 
         .avatar-preview {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto 2rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 3px solid #ffc107;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .kimono-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .kimono-svg {
-            width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-        }
-
-        .preview-info {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .preview-info-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-        }
-
-        .preview-info-label {
-            color: #999;
-            font-weight: 600;
-        }
-
-        .preview-info-value {
-            color: #ffc107;
-            font-weight: 700;
-        }
-
-        /* CUSTOMIZER SECTION */
-        .customizer-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid #ffc107;
-            border-radius: 15px;
-            padding: 2rem;
-        }
-
-        .customizer-title {
-            font-size: 1.3rem;
-            color: #ffc107;
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-
-        .customizer-group {
-            margin-bottom: 2.5rem;
-        }
-
-        .customizer-group-title {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+          width: 200px;
+          height: 200px;
         }
 
         .belt-colors {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .belt-option {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid transparent;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .belt-option:hover {
-            background: rgba(255, 193, 7, 0.1);
-            border-color: #ffc107;
-        }
-
-        .belt-option input[type="radio"] {
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-        }
-
-        .belt-color-sample {
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .belt-option label {
-            cursor: pointer;
-            flex: 1;
-            font-weight: 600;
-        }
-
-        .belt-option input[type="radio"]:checked + label {
-            color: #ffc107;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.75rem;
-            color: #ffc107;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-label {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 193, 7, 0.1);
-            border: 2px dashed #ffc107;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: #ffc107;
-        }
-
-        .file-input-label:hover {
-            background: rgba(255, 193, 7, 0.2);
-        }
-
-        .file-input-label input {
-            display: none;
+          grid-template-columns: 1fr;
         }
 
         .buttons-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
+          flex-direction: column;
         }
-
-        .btn {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #ffb300 0%, #ffa500 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffc107;
-            border: 2px solid #ffc107;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 193, 7, 0.2);
-        }
-
-        .success-message {
-            display: none;
-            background: rgba(76, 175, 80, 0.2);
-            border-left: 4px solid #4caf50;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            color: #4caf50;
-            font-weight: 600;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 193, 7, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .customizer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .avatar-preview {
-                width: 200px;
-                height: 200px;
-            }
-
-            .belt-colors {
-                grid-template-columns: 1fr;
-            }
-
-            .buttons-group {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="header-left">
-            <img src="/coringa-header-logo.png" alt="Coringa" class="coringa-logo">
-            <div class="header-title">CORINGA JIU-JITSU</div>
-        </div>
-        <div class="header-right">
-            <button class="btn-logout" onclick="logout()">Sair</button>
-        </div>
+      <div class="header-left">
+        <img
+          src="/coringa-header-logo.png"
+          alt="Coringa"
+          class="coringa-logo"
+        />
+        <div class="header-title">CORINGA JIU-JITSU</div>
+      </div>
+      <div class="header-right">
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
     </header>
 
     <div class="container">
-        <div class="page-title">
-            <h1>Personalize seu Avatar</h1>
-            <p>Escolha sua faixa e customize seu kimoninho</p>
+      <div class="page-title">
+        <h1>Personalize seu Avatar</h1>
+        <p>Escolha sua faixa e customize seu kimoninho</p>
+      </div>
+
+      <div class="customizer-grid">
+        <!-- PREVIEW -->
+        <div class="preview-section">
+          <div class="preview-title">Seu Avatar</div>
+          <div class="avatar-preview">
+            <div class="kimono-container">
+              <svg
+                id="kimonoSvg"
+                class="kimono-svg"
+                viewBox="0 0 200 300"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <!-- Será preenchido dinamicamente -->
+              </svg>
+            </div>
+          </div>
+          <div class="preview-info">
+            <div class="preview-info-item">
+              <span class="preview-info-label">Faixa:</span>
+              <span class="preview-info-value" id="previewBelt">Branca</span>
+            </div>
+            <div class="preview-info-item">
+              <span class="preview-info-label">Cor:</span>
+              <div
+                style="
+                  width: 30px;
+                  height: 30px;
+                  border-radius: 5px;
+                  background: #fff;
+                  border: 2px solid #ffc107;
+                "
+                id="previewColor"
+              ></div>
+            </div>
+          </div>
         </div>
 
-        <div class="customizer-grid">
-            <!-- PREVIEW -->
-            <div class="preview-section">
-                <div class="preview-title">Seu Avatar</div>
-                <div class="avatar-preview">
-                    <div class="kimono-container">
-                        <svg id="kimonoSvg" class="kimono-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Será preenchido dinamicamente -->
-                        </svg>
-                    </div>
-                </div>
-                <div class="preview-info">
-                    <div class="preview-info-item">
-                        <span class="preview-info-label">Faixa:</span>
-                        <span class="preview-info-value" id="previewBelt">Branca</span>
-                    </div>
-                    <div class="preview-info-item">
-                        <span class="preview-info-label">Cor:</span>
-                        <div style="width: 30px; height: 30px; border-radius: 5px; background: #fff; border: 2px solid #ffc107;" id="previewColor"></div>
-                    </div>
-                </div>
+        <!-- CUSTOMIZER -->
+        <div class="customizer-section">
+          <div class="customizer-title">Opções de Personalização</div>
+
+          <div id="successMessage" class="success-message">
+            ✓ Avatar salvo com sucesso!
+          </div>
+
+          <div class="customizer-group">
+            <div class="customizer-group-title">Escolha sua Faixa</div>
+            <div class="belt-colors" id="beltOptions">
+              <!-- Será preenchido dinamicamente -->
             </div>
+          </div>
 
-            <!-- CUSTOMIZER -->
-            <div class="customizer-section">
-                <div class="customizer-title">Opções de Personalização</div>
-
-                <div id="successMessage" class="success-message">
-                    ✓ Avatar salvo com sucesso!
-                </div>
-
-                <div class="customizer-group">
-                    <div class="customizer-group-title">Escolha sua Faixa</div>
-                    <div class="belt-colors" id="beltOptions">
-                        <!-- Será preenchido dinamicamente -->
-                    </div>
-                </div>
-
-                <div class="customizer-group">
-                    <label class="customizer-group-title">Foto do Rosto (Opcional)</label>
-                    <div class="file-input-wrapper">
-                        <label class="file-input-label">
-                            <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(event)">
-                            📸 Clique para selecionar ou arraste uma foto
-                        </label>
-                    </div>
-                </div>
-
-                <div class="buttons-group">
-                    <button class="btn btn-secondary" onclick="resetCustomizer()">Resetar</button>
-                    <button class="btn btn-primary" onclick="saveAvatar()">Salvar Avatar</button>
-                </div>
+          <div class="customizer-group">
+            <label class="customizer-group-title"
+              >Foto do Rosto (Opcional)</label
+            >
+            <div class="file-input-wrapper">
+              <label class="file-input-label">
+                <input
+                  type="file"
+                  id="photoInput"
+                  accept="image/*"
+                  onchange="handlePhotoUpload(event)"
+                />
+                📸 Clique para selecionar ou arraste uma foto
+              </label>
             </div>
+          </div>
+
+          <div class="buttons-group">
+            <button class="btn btn-secondary" onclick="resetCustomizer()">
+              Resetar
+            </button>
+            <button class="btn btn-primary" onclick="saveAvatar()">
+              Salvar Avatar
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <footer>
-        <p>© 2026 Coringa Jiu-Jitsu - Personalize seu Avatar</p>
+      <p>© 2026 Coringa Jiu-Jitsu - Personalize seu Avatar</p>
     </footer>
 
-    <script src="/auth.js"></script>
     <script>
-        // Cores das faixas
-        const beltColors = {
-            'branca': { color: '#ffffff', name: 'Branca' },
-            'branca-infantil': { color: '#f0f0f0', name: 'Branca Infantil' },
-            'cinza': { color: '#808080', name: 'Cinza' },
-            'cinza-infantil': { color: '#a9a9a9', name: 'Cinza Infantil' },
-            'amarela': { color: '#ffc107', name: 'Amarela' },
-            'amarela-infantil': { color: '#ffed4e', name: 'Amarela Infantil' },
-            'laranja': { color: '#ff9800', name: 'Laranja' },
-            'laranja-infantil': { color: '#ffb74d', name: 'Laranja Infantil' },
-            'verde': { color: '#4caf50', name: 'Verde' },
-            'verde-infantil': { color: '#81c784', name: 'Verde Infantil' },
-            'azul': { color: '#2196f3', name: 'Azul' },
-            'roxa': { color: '#9c27b0', name: 'Roxa' },
-            'marrom': { color: '#795548', name: 'Marrom' },
-            'preta': { color: '#000000', name: 'Preta' },
-            'coral': { color: '#ff7043', name: 'Coral' }
-        };
+      // Cores das faixas
+      const beltColors = {
+        branca: { color: "#ffffff", name: "Branca" },
+        "branca-infantil": { color: "#f0f0f0", name: "Branca Infantil" },
+        cinza: { color: "#808080", name: "Cinza" },
+        "cinza-infantil": { color: "#a9a9a9", name: "Cinza Infantil" },
+        amarela: { color: "#ffc107", name: "Amarela" },
+        "amarela-infantil": { color: "#ffed4e", name: "Amarela Infantil" },
+        laranja: { color: "#ff9800", name: "Laranja" },
+        "laranja-infantil": { color: "#ffb74d", name: "Laranja Infantil" },
+        verde: { color: "#4caf50", name: "Verde" },
+        "verde-infantil": { color: "#81c784", name: "Verde Infantil" },
+        azul: { color: "#2196f3", name: "Azul" },
+        roxa: { color: "#9c27b0", name: "Roxa" },
+        marrom: { color: "#795548", name: "Marrom" },
+        preta: { color: "#000000", name: "Preta" },
+        coral: { color: "#ff7043", name: "Coral" },
+      };
 
-        let selectedBelt = 'branca';
-        let selectedPhoto = null;
+      let selectedBelt = "branca";
+      let selectedPhoto = null;
 
-        // Inicializar página
-        function initPage() {
-            const user = getAuth();
-            if (!user) {
-                window.location.href = '/login.html';
-                return;
-            }
-
-            renderBeltOptions();
-            updateKimonoPreview();
+      // Inicializar página
+      function initPage() {
+        const user = getAuth();
+        if (!user) {
+          window.location.href = "/login.html";
+          return;
         }
 
-        // Renderizar opções de faixa
-        function renderBeltOptions() {
-            const container = document.getElementById('beltOptions');
-            container.innerHTML = '';
+        renderBeltOptions();
+        updateKimonoPreview();
+      }
 
-            Object.entries(beltColors).forEach(([key, data]) => {
-                const div = document.createElement('div');
-                div.className = 'belt-option';
-                div.innerHTML = `
-                    <input type="radio" id="belt-${key}" name="belt" value="${key}" ${key === 'branca' ? 'checked' : ''} onchange="selectBelt('${key}')">
+      // Renderizar opções de faixa
+      function renderBeltOptions() {
+        const container = document.getElementById("beltOptions");
+        container.innerHTML = "";
+
+        Object.entries(beltColors).forEach(([key, data]) => {
+          const div = document.createElement("div");
+          div.className = "belt-option";
+          div.innerHTML = `
+                    <input type="radio" id="belt-${key}" name="belt" value="${key}" ${key === "branca" ? "checked" : ""} onchange="selectBelt('${key}')">
                     <div class="belt-color-sample" style="background: ${data.color};"></div>
                     <label for="belt-${key}">${data.name}</label>
                 `;
-                container.appendChild(div);
-            });
-        }
+          container.appendChild(div);
+        });
+      }
 
-        // Selecionar faixa
-        function selectBelt(belt) {
-            selectedBelt = belt;
-            updateKimonoPreview();
-        }
+      // Selecionar faixa
+      function selectBelt(belt) {
+        selectedBelt = belt;
+        updateKimonoPreview();
+      }
 
-        // Atualizar preview do kimoninho
-        function updateKimonoPreview() {
-            const beltData = beltColors[selectedBelt];
-            const svg = document.getElementById('kimonoSvg');
+      // Atualizar preview do kimoninho
+      function updateKimonoPreview() {
+        const beltData = beltColors[selectedBelt];
+        const svg = document.getElementById("kimonoSvg");
 
-            // Gerar SVG do kimoninho
-            svg.innerHTML = `
+        // Gerar SVG do kimoninho
+        svg.innerHTML = `
                 <!-- Corpo -->
                 <rect x="50" y="40" width="100" height="120" rx="10" fill="${beltData.color}" stroke="#333" stroke-width="2"/>
                 
@@ -533,83 +564,84 @@
                 <path d="M 95 28 Q 100 30 105 28" stroke="#000" stroke-width="1.5" fill="none"/>
             `;
 
-            // Atualizar info
-            document.getElementById('previewBelt').textContent = beltData.name;
-            document.getElementById('previewColor').style.background = beltData.color;
+        // Atualizar info
+        document.getElementById("previewBelt").textContent = beltData.name;
+        document.getElementById("previewColor").style.background =
+          beltData.color;
+      }
+
+      // Lidar com upload de foto
+      function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            selectedPhoto = e.target.result;
+            console.log("Foto selecionada:", file.name);
+          };
+          reader.readAsDataURL(file);
         }
+      }
 
-        // Lidar com upload de foto
-        function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    selectedPhoto = e.target.result;
-                    console.log('Foto selecionada:', file.name);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+      // Salvar avatar
+      async function saveAvatar() {
+        try {
+          const user = getAuth();
+          if (!user) {
+            alert("Você precisa estar logado");
+            return;
+          }
 
-        // Salvar avatar
-        async function saveAvatar() {
-            try {
-                const user = getAuth();
-                if (!user) {
-                    alert('Você precisa estar logado');
-                    return;
-                }
+          const response = await fetch("/api/avatar/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: user.id,
+              belt: selectedBelt,
+              photo: selectedPhoto,
+            }),
+          });
 
-                const response = await fetch('/api/avatar/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: user.id,
-                        belt: selectedBelt,
-                        photo: selectedPhoto
-                    })
-                });
-
-                if (response.ok) {
-                    showSuccessMessage();
-                    setTimeout(() => {
-                        window.location.href = '/dashboard-aluno.html';
-                    }, 2000);
-                } else {
-                    alert('Erro ao salvar avatar');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao salvar avatar');
-            }
-        }
-
-        // Resetar customizer
-        function resetCustomizer() {
-            selectedBelt = 'branca';
-            selectedPhoto = null;
-            document.getElementById('photoInput').value = '';
-            document.getElementById('belt-branca').checked = true;
-            updateKimonoPreview();
-        }
-
-        // Mostrar mensagem de sucesso
-        function showSuccessMessage() {
-            const msg = document.getElementById('successMessage');
-            msg.classList.add('show');
+          if (response.ok) {
+            showSuccessMessage();
             setTimeout(() => {
-                msg.classList.remove('show');
-            }, 3000);
+              window.location.href = "/dashboard-aluno.html";
+            }, 2000);
+          } else {
+            alert("Erro ao salvar avatar");
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          alert("Erro ao salvar avatar");
         }
+      }
 
-        // Logout
-        function logout() {
-            clearAuth();
-            window.location.href = '/login.html';
-        }
+      // Resetar customizer
+      function resetCustomizer() {
+        selectedBelt = "branca";
+        selectedPhoto = null;
+        document.getElementById("photoInput").value = "";
+        document.getElementById("belt-branca").checked = true;
+        updateKimonoPreview();
+      }
 
-        // Inicializar
-        initPage();
+      // Mostrar mensagem de sucesso
+      function showSuccessMessage() {
+        const msg = document.getElementById("successMessage");
+        msg.classList.add("show");
+        setTimeout(() => {
+          msg.classList.remove("show");
+        }, 3000);
+      }
+
+      // Logout
+      function logout() {
+        clearAuth();
+        window.location.href = "/login.html";
+      }
+
+      // Inicializar
+      initPage();
     </script>
-</body>
+  </body>
 </html>
